@@ -1,0 +1,14 @@
+services:
+  nginx:
+    image: nginx:1.25
+    ports:
+      - "8443:443"
+    command: bash -c 'while !</dev/tcp/api/8000; do sleep 1; done; nginx -g "daemon off;"'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/certificates/key.pem:/root/ssl/key.pem
+      - ./nginx/certificates/cert.pem:/root/ssl/cert.pem
+    networks:
+      - app-network
+    depends_on:
+      - api
