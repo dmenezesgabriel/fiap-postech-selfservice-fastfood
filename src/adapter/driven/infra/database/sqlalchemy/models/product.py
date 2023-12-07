@@ -12,6 +12,7 @@ class Product(Base, BaseModel):
     category_id = Column(Integer, ForeignKey("product_category.id"))
     price = Column(Float)
     discount_id = Column(Integer, ForeignKey("discount.id"))
+    quantity = Column(Integer)
 
 
 class ProductCategory(Base,BaseModel):
