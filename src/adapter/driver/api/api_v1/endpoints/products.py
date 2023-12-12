@@ -1,0 +1,38 @@
+from typing import List
+
+from fastapi import APIRouter
+
+from src.adapter.driven.infra.database.sqlalchemy.repositories.product import ProductRepository
+from src.adapter.driven.infra.database.sqlalchemy.unit_of_work_manager import SQLAlchemyUnitOfWorkManager
+from src.core.application.services.product import ProductService
+from src.core.domain.entities.product import Product
+
+router = APIRouter(prefix="/products", tags=["products"])
+
+work_manager = SQLAlchemyUnitOfWorkManager()
+product_repository = ProductRepository(work_manager)
+product_service = ProductService(product_repository)
+
+
+@router.post("/", response_model=Product)
+async def create_product(product: Product):
+    return product_service.create(product)
+
+@router.get("/", response_model=List[Product])
+async def list_product():
+    return [
+        Product(
+            id=1,
+            name="teste",
+            category="sobremesa",
+            price=20
+
+        ),
+        Product(
+            id=2,
+            name="x-salada",
+            category="lanche",
+            price=8.00
+
+        )
+    ]

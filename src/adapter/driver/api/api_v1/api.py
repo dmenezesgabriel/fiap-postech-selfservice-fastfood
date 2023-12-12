@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from src.adapter.driver.api.api_v1.endpoints import users
+from src.adapter.driver.api.api_v1.endpoints import users, products
 
 router = APIRouter()
 
@@ -10,3 +10,4 @@ async def read_root():
 
 
 router.include_router(users.router)
+router.include_router(products.router)
