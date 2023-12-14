@@ -27,6 +27,7 @@ user_controller = UserController(user_service)
 router = APIRouter(prefix="/users", tags=["users"])
 
 
+# TODO : Alterar para response DTO
 @router.get("/", response_model=List[User])
 async def read_users():
     return user_controller.get_all()
@@ -65,7 +66,7 @@ async def create_user(user: UserDTO) -> UserDTOResponse:
         cpf=user.cpf
     )
 
-# TODO : O que mais deve retornar de informação?
+
 @router.get("/cpf/{cpf}", response_model=UserDTOResponse)
 async def get_user_by_cpf(
         cpf : str
