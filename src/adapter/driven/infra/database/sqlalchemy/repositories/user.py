@@ -18,6 +18,10 @@ class UserRepository(UserRepositoryInterface):
         with self._work_manager.start() as session:
             return session.query(User).filter_by(email=email).first()
 
+    def get_by_cpf(self, cpf: str) -> User:
+        with self._work_manager.start() as session:
+            return session.query(User).filter_by(cpf=cpf).first()
+
     def get_all(self) -> List[User]:
         with self._work_manager.start() as session:
             return session.query(User).all()

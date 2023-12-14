@@ -17,6 +17,10 @@ class UserController:
         user = self.user_service.get_by_id(id)
         return user
 
+    def get_by_cpf(self,cpf : str) -> User:
+        user = self.user_service.get_by_cpf(cpf)
+        return user
+
     def get_by_email(self, email: str) -> User:
         user = self.user_service.get_by_email(email)
         return user

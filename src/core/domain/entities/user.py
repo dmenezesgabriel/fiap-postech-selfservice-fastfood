@@ -12,6 +12,7 @@ class User(BaseModel):
     email: EmailStr
     password: str
     full_name: FullName
+    cpf : str
 
     @validator("email")
     def validate_email(cls, email):
