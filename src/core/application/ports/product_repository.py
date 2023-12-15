@@ -18,5 +18,9 @@ class ProductRepositoryInterface(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
+    def list_all(self) -> List[Product]:
+        raise NotImplementedError
+
+    @abstractmethod
     def delete(self, product_id: int) -> bool:
         raise NotImplementedError

@@ -5,7 +5,7 @@ from src.adapter.driven.infra.database.sqlalchemy.repositories.product import Pr
 from src.core.domain.entities.product import Product
 
 
-class ProductServicePort(metaclass=ABCMeta):
+class ProductServiceInterface(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self, product_repository: ProductRepository):
         raise NotImplementedError
@@ -23,5 +23,9 @@ class ProductServicePort(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def delete(self, product: Product) -> bool:
+    def list_all(self) -> List[Product]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def delete(self, product_id: int) -> bool:
         raise NotImplementedError

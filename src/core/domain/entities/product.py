@@ -12,3 +12,4 @@ class Product(BaseModel):
     name: str
     category: str
     price: Decimal
+    quantity: int

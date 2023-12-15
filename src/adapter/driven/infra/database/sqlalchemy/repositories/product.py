@@ -1,7 +1,6 @@
 from typing import List
 
-from src.adapter.driven.infra.database.sqlalchemy.models.product import Product, ProductCategory
-from src.adapter.driver.api.controllers.product_route import ProductController
+from src.adapter.driven.infra.database.sqlalchemy.models.product import Product as ProductModel, ProductCategory
 from src.core.application.ports.product_repository import ProductRepositoryInterface
 from src.core.domain.entities.product import Product
 
@@ -12,10 +11,14 @@ class ProductRepository(ProductRepositoryInterface):
 
     def create(self, product: Product):
         with self._work_manager.start() as session:
-            produto = Product(name='teste', category_id=ProductCategory(id=1), price=20, quantity=100)
+            produto = ProductModel(
+                name=product.name,
+                category_id=product.category,
+                price=product.price,
+                quantity=product.quantity
+            )
             session.add(produto)
         return product
-
 
     def update(self, product: Product) -> Product:
         with self._work_manager.start as session:
@@ -24,7 +27,13 @@ class ProductRepository(ProductRepositoryInterface):
 
     def list_by_category(self, category: str) -> List[Product]:
         with self._work_manager.start() as session:
-            session.query(Product).join(ProductCategory).filter(ProductCategory.name == category).all()
+            return session.query(ProductModel).join(ProductCategory).filter(ProductCategory.name == category).all()
+
+    def list_all(self) -> List[Product]:
+        with self._work_manager.start() as session:
+            products = session.query(ProductModel).join(ProductCategory).all()
+
+            return products
 
     def delete(self, product_id: int) -> bool:
         pass

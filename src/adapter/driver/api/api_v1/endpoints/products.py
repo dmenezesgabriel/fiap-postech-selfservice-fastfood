@@ -18,21 +18,12 @@ product_service = ProductService(product_repository)
 async def create_product(product: Product):
     return product_service.create(product)
 
+
 @router.get("/", response_model=List[Product])
 async def list_product():
-    return [
-        Product(
-            id=1,
-            name="teste",
-            category="sobremesa",
-            price=20
+    return product_service.list_all()
 
-        ),
-        Product(
-            id=2,
-            name="x-salada",
-            category="lanche",
-            price=8.00
 
-        )
-    ]
+@router.get("/{category}", response_model=List[Product])
+async def list_by_category(category: str):
+    return product_service.list_by_category(category.title())

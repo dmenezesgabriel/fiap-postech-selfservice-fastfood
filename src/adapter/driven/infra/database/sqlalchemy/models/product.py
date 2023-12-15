@@ -1,4 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
+
 from src.adapter.driven.infra.database.sqlalchemy.orm import Base
 from .base import BaseModel
 
@@ -13,6 +15,7 @@ class Product(Base, BaseModel):
     price = Column(Float)
     discount_id = Column(Integer, ForeignKey("discount.id"))
     quantity = Column(Integer)
+    category = relationship("ProductCategory", lazy="joined")
 
 
 class ProductCategory(Base,BaseModel):
