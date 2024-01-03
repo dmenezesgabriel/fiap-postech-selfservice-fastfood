@@ -1,5 +1,4 @@
 import re
-from src.core.domain.base.exceptions import InvalidCpfError
 
 
 class Cpf:

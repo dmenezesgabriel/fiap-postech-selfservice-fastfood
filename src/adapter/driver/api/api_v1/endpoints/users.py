@@ -27,8 +27,8 @@ user_controller = UserController(user_service)
 router = APIRouter(prefix="/users", tags=["users"])
 
 
-# TODO : Alterar para response DTO
-@router.get("/", response_model=List[User])
+# TODO : Implementar paginação
+@router.get("/", response_model=List[UserDTOResponse])
 async def read_users():
     return user_controller.get_all()
 
@@ -44,22 +44,18 @@ async def read_user(user_id: int):
         cpf=user.cpf
     )
 
+
 @router.post("/")
-# async def create_user(user: User):
 async def create_user(user: UserDTO) -> UserDTOResponse:
-    if user_controller.get_by_email(user.email) is not None:
-        raise HTTPException(
-            status_code=400, detail="User with this email already exists"
-        )
-    user: User = user_controller.create(
-        UserModel(
-            email=user.email,
-            password=user.password,
-            first_name=user.full_name.first_name,
-            last_name=user.full_name.last_name,
-            cpf=user.cpf
-        )
-    )
+    """
+    # Criação de usuário
+
+    ## Observações:
+
+    * Os e-mails e CPFs dos usuários são únicos na base de dados
+    """
+
+    user: User = user_controller.create(user)
     return UserDTOResponse(
         id=user.id,
         email=user.email,
@@ -69,21 +65,15 @@ async def create_user(user: UserDTO) -> UserDTOResponse:
 
 @router.get("/cpf/{cpf}", response_model=UserDTOResponse)
 async def get_user_by_cpf(
-        cpf : str
+        cpf: str
 ):
     """
-    # Endpoint que identifica o usuário pelo CPF.
+    # Identificação do usuário pelo CPF.
 
     ## Observações:
 
     * O número do CPF não deverá possuir caracteres especiais, como "." e "-".
     """
-
-    # TODO : validação deve ficar aqui?
-    try:
-        Cpf.validate(cpf)
-    except ValueError as e:
-        raise RequestValidationError(errors=str(e))
 
     user = user_controller.get_by_cpf(cpf)
     if user is None:

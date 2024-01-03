@@ -2,6 +2,7 @@ import abc
 from typing import List
 
 from src.core.domain.entities.user import User
+from src.adapter.driver.api.dto.user_dto import UserDTOResponse,UserDTO
 
 
 class UserServiceInterface(metaclass=abc.ABCMeta):
@@ -46,7 +47,7 @@ class UserServiceInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def create(self, user: User) -> User:
+    def create(self, user: UserDTO) -> User:
         raise NotImplementedError
 
     @abc.abstractmethod

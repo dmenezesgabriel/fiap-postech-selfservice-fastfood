@@ -2,7 +2,6 @@ from typing import Union
 
 from pydantic import BaseModel, EmailStr, ConfigDict, validator
 
-from src.core.domain.base.exceptions import InvalidCpfError
 from src.core.domain.value_objects.email import Email
 from src.core.domain.value_objects.cpf import Cpf
 from src.core.domain.value_objects.full_name import FullName
@@ -31,11 +30,3 @@ class UserDTOResponse(BaseModel):
     cpf : str
     email : str
 
-
-class GetUserByCpfDTO(BaseModel):
-    cpf: str
-    
-    @validator("cpf")
-    def validate_cpf(cls, cpf):
-        Cpf.validate(cpf)
-        return cpf

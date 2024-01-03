@@ -2,8 +2,12 @@ from typing import List
 
 from src.core.application.ports.user_repository import UserRepositoryInterface
 from src.core.application.ports.user_service import UserServiceInterface
+from src.core.domain.base.exceptions import UserAlreadyExistsError
 from src.core.domain.entities.user import User
-
+from src.adapter.driver.api.dto.user_dto import UserDTO
+from src.adapter.driven.infra.database.sqlalchemy.models.user import (
+    User as UserModel,
+)
 
 class UserService(UserServiceInterface):
     """User use case or service implementation."""
@@ -23,8 +27,23 @@ class UserService(UserServiceInterface):
     def get_all(self) -> List[User]:
         return self.user_repository.get_all()
 
-    def create(self, user: User) -> User:
-        return self.user_repository.create(user)
+    def create(self, user: UserDTO) -> User:
+
+        if self.user_repository.get_by_email(user.email) is not None:
+            raise UserAlreadyExistsError(f"User already exists with this e-mail ({user.email}).")
+
+        if self.user_repository.get_by_cpf(user.cpf) is not None:
+            raise UserAlreadyExistsError(f"User already exists with this cpf ({user.cpf}).")
+
+        return self.user_repository.create(
+            UserModel(
+                email=user.email,
+                password=user.password,
+                first_name=user.full_name.first_name,
+                last_name=user.full_name.last_name,
+                cpf=user.cpf
+            )
+        )
 
     def update(self, user: User) -> User:
         return self.user_repository.update(user)
