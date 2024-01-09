@@ -17,7 +17,6 @@ from src.adapter.driver.api.controllers.user import UserController
 from src.core.application.services.user import UserService
 from src.core.domain.entities.user import User
 from src.adapter.driver.api.dto.user_dto import UserDTO, UserDTOResponse
-from src.core.domain.value_objects.cpf import Cpf
 
 work_manager = SQLAlchemyUnitOfWorkManager()
 user_repository = UserRepository(work_manager)
@@ -30,11 +29,25 @@ router = APIRouter(prefix="/users", tags=["users"])
 # TODO : Implementar paginação
 @router.get("/", response_model=List[UserDTOResponse])
 async def read_users():
+    """
+    # Listagem de usuários
+
+    ## Observações:
+
+    *
+    """
     return user_controller.get_all()
 
 
 @router.get("/{user_id}", response_model=UserDTOResponse)
 async def read_user(user_id: int):
+    """
+    # Busca do usuário pelo id
+
+    ## Observações:
+
+    *
+    """
     user = user_controller.get_by_id(user_id)
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -68,7 +81,7 @@ async def get_user_by_cpf(
         cpf: str
 ):
     """
-    # Identificação do usuário pelo CPF.
+    # Busca do usuário pelo CPF.
 
     ## Observações:
 
@@ -87,6 +100,13 @@ async def get_user_by_cpf(
 
 @router.delete("/{user_id}")
 async def delete_user(user_id: int):
+    """
+    # Exclusão do usuário pelo id
+
+    ## Observações:
+
+    *
+    """
     user = user_controller.get_by_id(user_id)
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
