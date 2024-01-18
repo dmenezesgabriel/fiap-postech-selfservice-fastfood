@@ -36,4 +36,9 @@ class ProductRepository(ProductRepositoryInterface):
             return products
 
     def delete(self, product_id: int) -> bool:
-        pass
+        with self._work_manager.start() as session:
+            product = session.query(ProductModel).filter_by(id=product_id).first()
+            if product is None:
+                return False
+            session.delete(product)
+            return True

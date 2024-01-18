@@ -27,3 +27,8 @@ async def list_product():
 @router.get("/{category}", response_model=List[Product])
 async def list_by_category(category: str):
     return product_service.list_by_category(category.title())
+
+
+@router.delete("/{product_id}")
+async def delete_product(product_id: int):
+    return product_service.delete(product_id)

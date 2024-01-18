@@ -21,7 +21,6 @@ class ProductService(ProductServiceInterface):
         product_list = list()
 
         for product in products:
-            print(f"quantidade: {product.quantity}")
             product_list.append(
                 Product(
                     id=product.id,
