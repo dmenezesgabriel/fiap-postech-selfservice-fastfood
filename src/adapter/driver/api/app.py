@@ -1,9 +1,13 @@
 from functools import lru_cache
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.requests import Request
+from starlette.responses import JSONResponse
+
 from src.adapter.driver.api.settings import Settings
 from src.adapter.driver.api.api_v1.api import router as api_router
 
+from src.core.domain.base.exceptions import UserAlreadyExistsError
 
 settings = Settings()
 
@@ -30,3 +34,21 @@ app.add_middleware(
 )
 
 app.include_router(api_router, prefix="/api/v1")
+
+
+# Adding global exception handlers
+
+@app.exception_handler(Exception)
+async def validation_exception_handler(request, err):
+    base_error_message = f"Failed to execute: {request.method}: {request.url}"
+    return JSONResponse(status_code=500, content={"message": f"{base_error_message}. Detail: {err}"})
+
+
+@app.exception_handler(UserAlreadyExistsError)
+async def unicorn_exception_handler(request: Request, exc: UserAlreadyExistsError):
+    return JSONResponse(
+        status_code=400,
+        content={
+            "message": str(exc)
+        },
+    )

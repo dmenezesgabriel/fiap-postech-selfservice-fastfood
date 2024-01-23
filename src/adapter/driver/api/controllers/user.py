@@ -2,6 +2,7 @@ from typing import List
 
 from src.core.application.ports.user_service import UserServiceInterface
 from src.core.domain.entities.user import User
+from src.adapter.driver.api.dto.user_dto import UserDTOResponse,UserDTO
 
 
 class UserController:
@@ -17,15 +18,29 @@ class UserController:
         user = self.user_service.get_by_id(id)
         return user
 
+    def get_by_cpf(self,cpf : str) -> User:
+        user = self.user_service.get_by_cpf(cpf)
+        return user
+
     def get_by_email(self, email: str) -> User:
         user = self.user_service.get_by_email(email)
         return user
 
-    def get_all(self) -> List[User]:
+    def get_all(self) -> List[UserDTOResponse]:
         users = self.user_service.get_all()
-        return users
+        users_list : list = list()
+        for user in users:
+            users_list.append(
+                UserDTOResponse(
+                    id=user.id,
+                    email=user.email,
+                    cpf=user.cpf
+                )
+            )
 
-    def create(self, user: User) -> User:
+        return users_list
+
+    def create(self, user: UserDTO) -> User:
         user = self.user_service.create(user)
         return user
 

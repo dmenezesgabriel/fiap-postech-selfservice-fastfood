@@ -6,7 +6,7 @@ from alembic import context
 
 from src.adapter.driven.infra.database.sqlalchemy.orm import Base
 from src.adapter.driven.infra.config.settings import Config
-from src.adapter.driven.infra.database.sqlalchemy.models import user
+from src.adapter.driven.infra.database.sqlalchemy.models import user,product,order,shopping,payment
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

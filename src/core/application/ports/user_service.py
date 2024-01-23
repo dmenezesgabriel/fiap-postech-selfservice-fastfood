@@ -2,6 +2,7 @@ import abc
 from typing import List
 
 from src.core.domain.entities.user import User
+from src.adapter.driver.api.dto.user_dto import UserDTOResponse,UserDTO
 
 
 class UserServiceInterface(metaclass=abc.ABCMeta):
@@ -12,6 +13,8 @@ class UserServiceInterface(metaclass=abc.ABCMeta):
             and callable(__subclass.get_by_id)
             and hasattr(__subclass, "get_by_email")
             and callable(__subclass.get_by_email)
+            and hasattr(__subclass, "get_by_cpf")
+            and callable(__subclass.get_by_cpf)
             and hasattr(__subclass, "get_all")
             and callable(__subclass.get_all)
             and hasattr(__subclass, "create")
@@ -36,11 +39,15 @@ class UserServiceInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def get_by_cpf(self, cpf: str) -> User:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def get_all(self) -> List[User]:
         raise NotImplementedError
 
     @abc.abstractmethod
-    def create(self, user: User) -> User:
+    def create(self, user: UserDTO) -> User:
         raise NotImplementedError
 
     @abc.abstractmethod
