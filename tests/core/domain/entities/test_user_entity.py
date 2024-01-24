@@ -1,5 +1,6 @@
 import pytest
-from src.core.domain.entities.user import User
+
+from src.domain.entities.user import User
 
 
 class TestUser:
