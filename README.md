@@ -1,4 +1,4 @@
-# Ports and Adapters or Hexagonal Architecture in Python
+# FIAP - Pos Tech - Self-service restaurant
 
 ## Usage
 
@@ -6,25 +6,19 @@
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- [Make](https://www.gnu.org/software/make/)
 - [Python](https://www.python.org/downloads/)
 
-### Commands
+### How to run
 
-1. `make certificates` - Generate certificates for https.
-2. `docker compose up -d postgres` - Start the database.
-3. `docker compose run --rm migrations` - Run the migrations.
-4. `docker compose up -d api nginx` - Start the api and nginx.
-5. Go to `https://localhost:8443/docs` to see the swagger documentation.
+1. `docker compose up -d postgres` - Start the database.
+2. `docker compose run --rm migrations` - Run the migrations.
+3. `docker compose up api`
+4. Go to `https://localhost:8000/docs` to see the swagger documentation.
 
-you can also run it outside docker
+#### Migrations command examples
 
-1. `python -m venv venv` - Create a virtual environment.
-2. `source venv/bin/activate` - Activate the virtual environment.
-3. `pip install -r requirements.txt` - Install the dependencies.
-4. `make migrations` - Run the migrations.
-5. `make run` - Start the api.
-6. Go to `http://localhost:8000/docs` to see the swagger documentation.
+- `alembic -c migrations/alembic/alembic.ini revision --autogenerate -m"First commit"`
+- `alembic -c migrations/alembic/alembic.ini upgrade head`
 
 ## Architecture
 
