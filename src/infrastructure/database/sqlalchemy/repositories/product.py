@@ -8,11 +8,14 @@ from src.infrastructure.database.sqlalchemy.models.product import (
 from src.infrastructure.database.sqlalchemy.models.product import (
     ProductCategory,
 )
+from src.infrastructure.database.sqlalchemy.unit_of_work_manager import (
+    SQLAlchemyUnitOfWorkManager,
+)
 
 
 class ProductRepository(ProductRepositoryInterface):
-    def __init__(self, work_manager):
-        self._work_manager = work_manager
+    def __init__(self):
+        self._work_manager = SQLAlchemyUnitOfWorkManager()
 
     def create(self, product: Product):
         with self._work_manager.start() as session:

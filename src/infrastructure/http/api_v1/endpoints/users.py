@@ -1,21 +1,15 @@
 from typing import List
 
 from fastapi import APIRouter, HTTPException
-from fastapi.exceptions import RequestValidationError
-from fastapi.params import Query
 
 from src.application.services.user import UserService
 from src.domain.entities.user import User
 from src.infrastructure.database.sqlalchemy.repositories.user import (
     UserRepository,
 )
-from src.infrastructure.database.sqlalchemy.unit_of_work_manager import (
-    SQLAlchemyUnitOfWorkManager,
-)
 from src.infrastructure.http.dto.user_dto import UserDTO, UserDTOResponse
 
-work_manager = SQLAlchemyUnitOfWorkManager()
-user_repository = UserRepository(work_manager)
+user_repository = UserRepository()
 user_service = UserService(user_repository)
 
 

@@ -7,14 +7,11 @@ from src.domain.entities.product import Product
 from src.infrastructure.database.sqlalchemy.repositories.product import (
     ProductRepository,
 )
-from src.infrastructure.database.sqlalchemy.unit_of_work_manager import (
-    SQLAlchemyUnitOfWorkManager,
-)
 
 router = APIRouter(prefix="/products", tags=["products"])
 
-work_manager = SQLAlchemyUnitOfWorkManager()
-product_repository = ProductRepository(work_manager)
+
+product_repository = ProductRepository()
 product_service = ProductService(product_repository)
 
 
@@ -30,9 +27,8 @@ async def list_product():
 
 @router.put("/{product_id}", response_model=Product)
 async def update_product(product_id: int, updated_product: Product):
-    _updated_product = updated_product
-    _updated_product.id = product_id
-    return product_service.update(_updated_product)
+    product = Product(id=product_id, **updated_product.dict())
+    return product_service.update(product)
 
 
 @router.get("/{category}", response_model=List[Product])

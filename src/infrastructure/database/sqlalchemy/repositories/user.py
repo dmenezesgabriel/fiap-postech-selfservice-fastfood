@@ -2,13 +2,16 @@ from typing import List
 
 from src.application.ports.user_repository import UserRepositoryInterface
 from src.infrastructure.database.sqlalchemy.models.user import User
+from src.infrastructure.database.sqlalchemy.unit_of_work_manager import (
+    SQLAlchemyUnitOfWorkManager,
+)
 
 
 class UserRepository(UserRepositoryInterface):
     """User repository implementation."""
 
-    def __init__(self, work_manager):
-        self._work_manager = work_manager
+    def __init__(self):
+        self._work_manager = SQLAlchemyUnitOfWorkManager()
 
     def get_by_id(self, id: int) -> User:
         with self._work_manager.start() as session:
