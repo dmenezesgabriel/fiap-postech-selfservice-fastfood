@@ -16,18 +16,35 @@ class ProductRepository(ProductRepositoryInterface):
 
     def create(self, product: Product):
         with self._work_manager.start() as session:
-            produto = ProductModel(
+            product_category = (
+                session.query(ProductCategory)
+                .filter_by(name=product.category)
+                .first()
+            )
+            product_model = ProductModel(
                 name=product.name,
-                category_id=product.category,
+                category_id=product_category.id,
                 price=product.price,
                 quantity=product.quantity,
             )
-            session.add(produto)
+            session.add(product_model)
         return product
 
     def update(self, product: Product) -> Product:
-        with self._work_manager.start as session:
-            session.add(product)
+        with self._work_manager.start() as session:
+            product_category = (
+                session.query(ProductCategory)
+                .filter_by(name=product.category)
+                .first()
+            )
+            product_model = (
+                session.query(ProductModel).filter_by(id=product.id).first()
+            )
+            if product_model:
+                product_model.name = product.name
+                product_model.category_id = product_category.id
+                product_model.price = product.price
+                product_model.quantity = product.quantity
         return product
 
     def list_by_category(self, category: str) -> List[Product]:
@@ -38,6 +55,13 @@ class ProductRepository(ProductRepositoryInterface):
                 .filter(ProductCategory.name == category)
                 .all()
             )
+
+    def get_by_id(self, product_id: int) -> Product:
+        with self._work_manager.start() as session:
+            product = (
+                session.query(ProductModel).filter_by(id=product_id).first()
+            )
+            return product
 
     def list_all(self) -> List[Product]:
         with self._work_manager.start() as session:

@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from src.application.services.product import ProductService
 from src.domain.entities.product import Product
@@ -26,6 +26,13 @@ async def create_product(product: Product):
 @router.get("/", response_model=List[Product])
 async def list_product():
     return product_service.list_all()
+
+
+@router.put("/{product_id}", response_model=Product)
+async def update_product(product_id: int, updated_product: Product):
+    _updated_product = updated_product
+    _updated_product.id = product_id
+    return product_service.update(_updated_product)
 
 
 @router.get("/{category}", response_model=List[Product])
