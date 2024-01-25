@@ -19,7 +19,7 @@ class OrderRepository(OrderRepositoryInterface):
         self._work_manager = SQLAlchemyUnitOfWorkManager()
 
     def create(
-        self, order_detail: OrderDetail, ordem_items: List[OrderItem]
+        self, order_detail: OrderDetail, order_items: List[OrderItem]
     ) -> None:
         with self._work_manager.start() as session:
             order_detail: OrderDetailModel = OrderDetailModel(
@@ -34,11 +34,13 @@ class OrderRepository(OrderRepositoryInterface):
 
             order_id: int = order_detail.id
 
-            for item in ordem_items:
-                session.add(
-                    OrderItemModel(
-                        order_id=order_id,
-                        product_id=item.product_id,
-                        updated_at=datetime.now(),
-                    )
+            order_items_models = [
+                OrderItemModel(
+                    order_id=order_id,
+                    product_id=item.product_id,
+                    updated_at=datetime.now(),
                 )
+                for item in order_items
+            ]
+
+            session.bulk_save_objects(order_items_models)

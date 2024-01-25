@@ -9,7 +9,6 @@ class OrderDetail(Base, BaseModel):
 
     user_id = Column(Integer, ForeignKey("users.id"))
     total = Column(Float)
-    # payment_id = Column(Integer,ForeignKey("payment_details.id"))
 
 
 class OrderItem(Base, BaseModel):
