@@ -1,11 +1,10 @@
 from typing import Union
 
-from pydantic import BaseModel, ConfigDict, EmailStr, validator
+from pydantic import BaseModel, EmailStr, validator
 
 from src.domain.value_objects.cpf import Cpf
 from src.domain.value_objects.email import Email
 from src.domain.value_objects.full_name import FullName
-from src.infrastructure.http.dto.base import Omit
 
 
 class UserDTO(BaseModel):

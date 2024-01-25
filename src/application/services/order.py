@@ -2,15 +2,14 @@ from datetime import datetime
 from typing import List
 
 from src.application.ports.order_service import OrderServiceInterface
-from src.application.ports.product_repository import ProductRepositoryInterface
 from src.domain.entities.order import OrderDetail, OrderItem
-from src.domain.entities.product import Product
-from src.infrastructure.database.sqlalchemy.repositories.order import OrderRepository
+from src.infrastructure.database.sqlalchemy.repositories.order import (
+    OrderRepository,
+)
 from src.infrastructure.http.dto.order_dto import OrderDTO, OrderResponseDTO
 
 
 class OrderService(OrderServiceInterface):
-
     def __init__(self, order_repository: OrderRepository):
         self.order_repository = order_repository
 
