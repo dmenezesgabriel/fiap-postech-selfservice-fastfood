@@ -17,15 +17,15 @@ class OrderService(OrderServiceInterface):
         total: float = 0
 
         for product in order.products:
-            total += (product.price * product.quantity)
+            total += product.price * product.quantity
 
         order_detail: OrderDetail = OrderDetail(
-            user_id=order.user_id,
-            total=total,
-            updated_at=datetime.now()
+            user_id=order.user_id, total=total, updated_at=datetime.now()
         )
 
-        order_items: List[OrderItem] = [OrderItem(product_id=item.id) for item in order.products]
+        order_items: List[OrderItem] = [
+            OrderItem(product_id=item.id) for item in order.products
+        ]
 
         self.order_repository.create(order_detail, order_items)
 
@@ -34,5 +34,5 @@ class OrderService(OrderServiceInterface):
             transacion_amount=round(total, 2),
             payment_method="credit-card",
             description="Fake description",
-            products=order.products
+            products=order.products,
         )
