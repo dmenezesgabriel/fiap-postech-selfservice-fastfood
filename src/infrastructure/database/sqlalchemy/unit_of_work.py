@@ -8,6 +8,9 @@ class SQLAlchemyUnitOfWork(UnitOfWork):
     def __init__(self, session):
         self.session = session
 
+    def get_session(self):
+        return self.session
+
     def __enter__(self):
         return self.session
 

@@ -5,7 +5,7 @@ from src.infrastructure.database.sqlalchemy.orm import Base
 from .base import BaseModel
 
 
-class OrderDetails(Base, BaseModel):
+class OrderDetail(Base, BaseModel):
     __tablename__ = "order_details"
 
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -13,7 +13,7 @@ class OrderDetails(Base, BaseModel):
     # payment_id = Column(Integer,ForeignKey("payment_details.id"))
 
 
-class OrderItems(Base, BaseModel):
+class OrderItem(Base, BaseModel):
     __tablename__ = "order_items"
 
     order_id = Column(Integer, ForeignKey("order_details.id"))
