@@ -14,6 +14,22 @@ class UserDTO(BaseModel):
     password: str
     cpf: str
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "email": "example@example.com",
+                    "password": "123",
+                    "full_name": {
+                        "first_name": "John",
+                        "last_name": "Doe",
+                    },
+                    "cpf": "00000000000",
+                }
+            ]
+        }
+    }
+
     @validator("email")
     def validate_email(cls, email):
         Email.validate(email)
