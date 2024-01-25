@@ -6,18 +6,27 @@ from src.domain.entities.order import OrderDetail, OrderItem
 from src.infrastructure.database.sqlalchemy.repositories.order import (
     OrderRepository,
 )
+from src.infrastructure.database.sqlalchemy.repositories.product import (
+    ProductRepository,
+)
 from src.infrastructure.http.dto.order_dto import OrderDTO, OrderResponseDTO
 
 
 class OrderService(OrderServiceInterface):
-    def __init__(self, order_repository: OrderRepository):
+    def __init__(
+        self,
+        order_repository: OrderRepository,
+        product_repository: ProductRepository,
+    ):
         self.order_repository = order_repository
+        self.product_repository = product_repository
 
     def create(self, order: OrderDTO) -> OrderResponseDTO:
         total: float = 0
 
-        for product in order.products:
-            total += product.price * product.quantity
+        for order_product in order.products:
+            product = self.product_repository.get_by_id(order_product.id)
+            total += product.price * order_product.quantity
 
         order_detail: OrderDetail = OrderDetail(
             user_id=order.user_id, total=total, updated_at=datetime.now()
