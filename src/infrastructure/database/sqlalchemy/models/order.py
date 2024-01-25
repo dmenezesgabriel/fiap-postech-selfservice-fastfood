@@ -1,8 +1,7 @@
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 
+from src.infrastructure.database.sqlalchemy.models.base import BaseModel
 from src.infrastructure.database.sqlalchemy.orm import Base
-
-from .base import BaseModel
 
 
 class OrderDetail(Base, BaseModel):

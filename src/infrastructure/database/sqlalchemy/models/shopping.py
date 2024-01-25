@@ -8,9 +8,8 @@ from sqlalchemy import (
     String,
 )
 
+from src.infrastructure.database.sqlalchemy.models.base import BaseModel
 from src.infrastructure.database.sqlalchemy.orm import Base
-
-from .base import BaseModel
 
 
 class ShoppingSession(Base, BaseModel):

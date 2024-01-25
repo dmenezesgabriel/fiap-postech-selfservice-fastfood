@@ -1,9 +1,8 @@
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
+from src.infrastructure.database.sqlalchemy.models.base import BaseModel
 from src.infrastructure.database.sqlalchemy.orm import Base
-
-from .base import BaseModel
 
 
 class Product(Base, BaseModel):
