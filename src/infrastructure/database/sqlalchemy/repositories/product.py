@@ -66,6 +66,15 @@ class ProductRepository(ProductRepositoryInterface):
             )
             return product
 
+    def get_many_by_ids(self, product_ids: List[int]) -> List[Product]:
+        with self._work_manager.start() as session:
+            products = (
+                session.query(ProductModel)
+                .filter(ProductModel.id.in_(product_ids))
+                .all()
+            )
+            return products
+
     def list_all(self) -> List[Product]:
         with self._work_manager.start() as session:
             products = session.query(ProductModel).join(ProductCategory).all()

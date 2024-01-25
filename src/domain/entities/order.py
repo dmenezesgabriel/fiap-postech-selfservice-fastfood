@@ -1,8 +1,6 @@
-from decimal import Decimal
-from typing import Union, List
+from typing import List, Union
 
-from pydantic import ConfigDict, BaseModel
-from datetime import datetime
+from pydantic import BaseModel, ConfigDict
 
 
 class OrderItem(BaseModel):

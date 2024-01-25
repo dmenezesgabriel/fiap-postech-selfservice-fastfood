@@ -24,8 +24,10 @@ class OrderService(OrderServiceInterface):
     def create(self, order: OrderDTO) -> OrderResponseDTO:
         total: float = 0
 
-        for order_product in order.products:
-            product = self.product_repository.get_by_id(order_product.id)
+        product_ids = [order_product.id for order_product in order.products]
+        products = self.product_repository.get_many_by_ids(product_ids)
+
+        for product, order_product in zip(products, order.products):
             total += product.price * order_product.quantity
 
         order_detail: OrderDetail = OrderDetail(
