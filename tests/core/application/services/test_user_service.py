@@ -32,7 +32,7 @@ class TestUserService:
         result = user_service.get_by_id(user_id)
         assert result == expected_user
 
-    def test_get_all_success(self, user_service):
+    def test_list_all_success(self, user_service):
         user_data = [
             {
                 "id": 1,
@@ -50,9 +50,9 @@ class TestUserService:
             },
         ]
         expected_users = [User(**data) for data in user_data]
-        user_service.user_repository.get_all.return_value = expected_users
+        user_service.user_repository.list_all.return_value = expected_users
 
-        result = user_service.get_all()
+        result = user_service.list_all()
         assert result == expected_users
 
     def test_create_success(self, user_service):

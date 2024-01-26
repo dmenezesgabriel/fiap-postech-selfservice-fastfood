@@ -44,3 +44,7 @@ class OrderRepository(OrderRepositoryInterface):
             ]
 
             session.bulk_save_objects(order_items_models)
+
+    def list_all(self) -> List[OrderDetail]:
+        with self._work_manager.start() as session:
+            return session.query(OrderDetailModel).join(OrderItemModel).all()

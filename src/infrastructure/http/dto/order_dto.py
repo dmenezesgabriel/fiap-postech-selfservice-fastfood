@@ -31,9 +31,15 @@ class OrderDTO(BaseModel):
     }
 
 
-class OrderResponseDTO(BaseModel):
+class CheckoutResponseDTO(BaseModel):
     user_id: int
     transacion_amount: float
     payment_method: str
     description: str
     products: List[ProductDTO]
+
+
+class OrderResponseDTO(BaseModel):
+    user_id: int
+    total: float
+    order_items: List[ProductDTO]

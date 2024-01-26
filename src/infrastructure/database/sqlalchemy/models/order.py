@@ -10,7 +10,7 @@ class OrderDetail(Base, BaseModel):
 
     user_id = Column(Integer, ForeignKey("users.id"))
     total = Column(Float)
-    order_items = relationship("OrderItem", back_populates="order_detail")
+    order_items = relationship("OrderItem", lazy="joined")
 
 
 class OrderItem(Base, BaseModel):
@@ -19,3 +19,4 @@ class OrderItem(Base, BaseModel):
     order_id = Column(Integer, ForeignKey("order_details.id"))
     product_id = Column(Integer, ForeignKey("product.id"))
     order_detail = relationship("OrderDetail", back_populates="order_items")
+    product = relationship("Product", lazy="joined")

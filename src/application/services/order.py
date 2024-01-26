@@ -9,7 +9,11 @@ from src.infrastructure.database.sqlalchemy.repositories.order import (
 from src.infrastructure.database.sqlalchemy.repositories.product import (
     ProductRepository,
 )
-from src.infrastructure.http.dto.order_dto import OrderDTO, OrderResponseDTO
+from src.infrastructure.http.dto.order_dto import (
+    CheckoutResponseDTO,
+    OrderDTO,
+    OrderResponseDTO,
+)
 
 
 class OrderService(OrderServiceInterface):
@@ -31,7 +35,8 @@ class OrderService(OrderServiceInterface):
             total += product.price * order_product.quantity
 
         order_detail: OrderDetail = OrderDetail(
-            user_id=order.user_id, total=total, updated_at=datetime.now()
+            user_id=order.user_id,
+            total=total,
         )
 
         order_items: List[OrderItem] = [
@@ -40,10 +45,13 @@ class OrderService(OrderServiceInterface):
 
         self.order_repository.create(order_detail, order_items)
 
-        return OrderResponseDTO(
+        return CheckoutResponseDTO(
             user_id=order.user_id,
             transacion_amount=round(total, 2),
             payment_method="credit-card",
             description="Fake description",
             products=order.products,
         )
+
+    def list_all(self) -> List[OrderDetail]:
+        return self.order_repository.list_all()

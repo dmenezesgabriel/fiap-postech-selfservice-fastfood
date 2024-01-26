@@ -18,7 +18,7 @@ class UserRepositoryInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_all(self) -> List[User]:
+    def list_all(self) -> List[User]:
         raise NotImplementedError
 
     @abc.abstractmethod

@@ -23,8 +23,8 @@ class UserService(UserServiceInterface):
     def get_by_cpf(self, cpf: str) -> User:
         return self.user_repository.get_by_cpf(cpf)
 
-    def get_all(self) -> List[User]:
-        return self.user_repository.get_all()
+    def list_all(self) -> List[User]:
+        return self.user_repository.list_all()
 
     def create(self, user: UserDTO) -> User:
         if self.user_repository.get_by_email(user.email) is not None:

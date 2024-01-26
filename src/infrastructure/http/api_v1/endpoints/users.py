@@ -26,7 +26,7 @@ async def read_users():
 
     *
     """
-    users = user_service.get_all()
+    users = user_service.list_all()
     users_list: list = list()
     for user in users:
         users_list.append(
