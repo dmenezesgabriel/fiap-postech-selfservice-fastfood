@@ -26,6 +26,7 @@ class OrderService:
     def create(self, order: CreateOrderDTO) -> OrderResponseDTO:
         total: float = 0
 
+
         product_ids = [order_product.id for order_product in order.products]
         products = self.product_repository.get_many_by_ids(product_ids)
 

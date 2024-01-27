@@ -2,6 +2,7 @@ from typing import List
 
 from src.application.dto.product_dto import ProductDTO
 from src.application.ports.product_repository import ProductRepositoryInterface
+from src.domain.base.exceptions import EntityAlreadyExistsError, NotFoundError
 from src.domain.entities.product import Product
 
 
@@ -10,13 +11,19 @@ class ProductService:
         self.product_repository = product_repository
 
     def create(self, product: ProductDTO) -> Product:
+
+        existing_product : Product = self.product_repository.get_by_name(name=product.name)
+
+        if existing_product:
+            raise EntityAlreadyExistsError(f"Product with this name ({product.name}) already exists")
+
         return self.product_repository.create(product)
 
     def update(self, product: Product) -> Product:
         existing_product = self.product_repository.get_by_id(product.id)
 
         if not existing_product:
-            raise ValueError(f"Product with ID {product.id} not found")
+            raise NotFoundError(f"Product with ID {product.id} not found")
 
         return self.product_repository.update(product)
 
@@ -24,7 +31,7 @@ class ProductService:
         product = self.product_repository.get_by_id(product_id)
 
         if not product:
-            raise ValueError(f"Product with ID {product_id} not found")
+            raise NotFoundError(f"Product with ID {product_id} not found")
 
         return Product(
             id=product.id,

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class ProductDTO(BaseModel):
-    id: Union[int, None] = None
+    # id: Union[int, None] = None
     name: str
     category: str
     price: Decimal

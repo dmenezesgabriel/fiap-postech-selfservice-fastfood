@@ -1,6 +1,7 @@
 from typing import List
 
 from src.application.ports.product_repository import ProductRepositoryInterface
+from src.domain.base.exceptions import NotFoundError
 from src.domain.entities.product import Product
 from src.infrastructure.database.sqlalchemy.models.product import (
     Product as ProductModel,
@@ -40,6 +41,10 @@ class ProductRepository(ProductRepositoryInterface):
                 .filter_by(name=product.category)
                 .first()
             )
+            
+            if not product_category:
+                raise NotFoundError(f"Category not found")
+            
             product_model = (
                 session.query(ProductModel).filter_by(id=product.id).first()
             )
@@ -63,6 +68,13 @@ class ProductRepository(ProductRepositoryInterface):
         with self._work_manager.start() as session:
             product = (
                 session.query(ProductModel).filter_by(id=product_id).first()
+            )
+            return product
+
+    def get_by_name(self, name: str) -> Product:
+        with self._work_manager.start() as session:
+            product = (
+                session.query(ProductModel).filter_by(name=name).first()
             )
             return product
 

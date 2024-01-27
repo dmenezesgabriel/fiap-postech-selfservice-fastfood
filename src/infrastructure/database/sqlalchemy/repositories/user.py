@@ -20,7 +20,7 @@ class UserRepository(UserRepositoryInterface):
     def get_by_id(self, id: int) -> UserModel:
         with self._work_manager.start() as session:
             user = session.query(UserModel).filter_by(id=id).first()
-            return UserMapper.model_to_entity(user)
+            return UserMapper.model_to_entity(user) if user else None
 
     def get_by_email(self, email: str) -> UserEntity:
         with self._work_manager.start() as session:

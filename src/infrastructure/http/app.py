@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from src.domain.base.exceptions import UserAlreadyExistsError
+from src.domain.base.exceptions import UserAlreadyExistsError, EntityAlreadyExistsError, NotFoundError
 from src.infrastructure.http.api_v1.api import router as api_router
 from src.infrastructure.http.settings import Settings
 
@@ -51,6 +51,24 @@ async def validation_exception_handler(request, err):
 @app.exception_handler(UserAlreadyExistsError)
 async def unicorn_exception_handler(
     request: Request, exc: UserAlreadyExistsError
+):
+    return JSONResponse(
+        status_code=400,
+        content={"message": str(exc)},
+    )
+
+@app.exception_handler(EntityAlreadyExistsError)
+async def unicorn_exception_handler(
+    request: Request, exc: EntityAlreadyExistsError
+):
+    return JSONResponse(
+        status_code=400,
+        content={"message": str(exc)},
+    )
+
+@app.exception_handler(NotFoundError)
+async def unicorn_exception_handler(
+    request: Request, exc: NotFoundError
 ):
     return JSONResponse(
         status_code=400,
