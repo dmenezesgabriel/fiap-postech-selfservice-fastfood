@@ -28,7 +28,7 @@ async def list_product():
 
 @router.put("/{product_id}", response_model=ProductDTOResponse)
 async def update_product(product_id: int, updated_product: ProductDTO):
-    product = Product(id=product_id, **updated_product.dict())
+    product = Product(id=product_id, **updated_product.model_dump())
     return product_service.update(product)
 
 
