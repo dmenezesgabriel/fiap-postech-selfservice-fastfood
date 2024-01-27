@@ -12,7 +12,7 @@ class ProductService:
 
     def create(self, product: ProductDTO) -> Product:
 
-        existing_product : Product = self.product_repository.get_by_name(name=product.name)
+        existing_product: Product = self.product_repository.get_by_product_name(product_name=product.name)
 
         if existing_product:
             raise EntityAlreadyExistsError(f"Product with this name ({product.name}) already exists")

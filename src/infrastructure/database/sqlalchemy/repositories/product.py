@@ -71,10 +71,10 @@ class ProductRepository(ProductRepositoryInterface):
             )
             return product
 
-    def get_by_name(self, name: str) -> Product:
+    def get_by_product_name(self, product_name: str) -> Product:
         with self._work_manager.start() as session:
             product = (
-                session.query(ProductModel).filter_by(name=name).first()
+                session.query(ProductModel).filter_by(name=product_name).first()
             )
             return product
 
