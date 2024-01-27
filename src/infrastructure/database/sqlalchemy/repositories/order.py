@@ -3,6 +3,9 @@ from typing import List
 
 from src.application.ports.order_repository import OrderRepositoryInterface
 from src.domain.entities.order import OrderDetail, OrderItem
+from src.infrastructure.database.sqlalchemy.mappers.order_mapper import (
+    OrderMapper,
+)
 from src.infrastructure.database.sqlalchemy.models.order import (
     OrderDetail as OrderDetailModel,
 )
@@ -47,4 +50,5 @@ class OrderRepository(OrderRepositoryInterface):
 
     def list_all(self) -> List[OrderDetail]:
         with self._work_manager.start() as session:
-            return session.query(OrderDetailModel).join(OrderItemModel).all()
+            orders = session.query(OrderDetailModel).join(OrderItemModel).all()
+            return [OrderMapper.model_to_entity(order) for order in orders]
