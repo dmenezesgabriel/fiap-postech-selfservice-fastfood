@@ -26,9 +26,5 @@ class UserRepositoryInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def update(self, user: User) -> User:
-        raise NotImplementedError
-
-    @abc.abstractmethod
     def delete(self, id: int) -> bool:
         raise NotImplementedError

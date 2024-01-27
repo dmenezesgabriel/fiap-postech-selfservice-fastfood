@@ -1,9 +1,8 @@
 from typing import List
 
-from src.application.dto.user_dto import CreateUserDTO
 from src.application.ports.user_repository import UserRepositoryInterface
 from src.domain.base.exceptions import UserAlreadyExistsError
-from src.domain.entities.user import User
+from src.domain.entities.user import User as UserEntity
 from src.infrastructure.database.sqlalchemy.models.user import User as UserModel
 
 
@@ -13,19 +12,19 @@ class UserService:
     def __init__(self, user_repository: UserRepositoryInterface):
         self.user_repository = user_repository
 
-    def get_by_id(self, id: int) -> User:
+    def get_by_id(self, id: int) -> UserEntity:
         return self.user_repository.get_by_id(id)
 
-    def get_by_email(self, email: str) -> User:
+    def get_by_email(self, email: str) -> UserEntity:
         return self.user_repository.get_by_email(email)
 
-    def get_by_cpf(self, cpf: str) -> User:
+    def get_by_cpf(self, cpf: str) -> UserEntity:
         return self.user_repository.get_by_cpf(cpf)
 
-    def list_all(self) -> List[User]:
+    def list_all(self) -> List[UserEntity]:
         return self.user_repository.list_all()
 
-    def create(self, user: CreateUserDTO) -> User:
+    def create(self, user: UserEntity) -> UserEntity:
         if self.user_repository.get_by_email(user.email) is not None:
             raise UserAlreadyExistsError(
                 f"User already exists with this e-mail ({user.email})."
@@ -36,17 +35,9 @@ class UserService:
                 f"User already exists with this cpf ({user.cpf})."
             )
 
-        return self.user_repository.create(
-            UserModel(
-                email=user.email,
-                password=user.password,
-                first_name=user.full_name.first_name,
-                last_name=user.full_name.last_name,
-                cpf=user.cpf,
-            )
-        )
+        return self.user_repository.create(user)
 
-    def update(self, user: User) -> User:
+    def update(self, user: UserEntity) -> UserEntity:
         return self.user_repository.update(user)
 
     def delete(self, id: int) -> bool:
