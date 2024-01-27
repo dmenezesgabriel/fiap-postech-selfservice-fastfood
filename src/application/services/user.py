@@ -1,6 +1,6 @@
 from typing import List
 
-from src.application.dto.user_dto import UserDTO
+from src.application.dto.user_dto import CreateUserDTO
 from src.application.ports.user_repository import UserRepositoryInterface
 from src.application.ports.user_service import UserServiceInterface
 from src.domain.base.exceptions import UserAlreadyExistsError
@@ -26,7 +26,7 @@ class UserService(UserServiceInterface):
     def list_all(self) -> List[User]:
         return self.user_repository.list_all()
 
-    def create(self, user: UserDTO) -> User:
+    def create(self, user: CreateUserDTO) -> User:
         if self.user_repository.get_by_email(user.email) is not None:
             raise UserAlreadyExistsError(
                 f"User already exists with this e-mail ({user.email})."

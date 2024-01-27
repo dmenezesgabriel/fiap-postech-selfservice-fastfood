@@ -1,6 +1,6 @@
-from typing import List, Union
+from typing import List
 
-from pydantic import BaseModel, ConfigDict, EmailStr, validator
+from pydantic import BaseModel
 
 
 class ProductDTO(BaseModel):
@@ -12,7 +12,7 @@ class ProductDTO(BaseModel):
     }
 
 
-class OrderDTO(BaseModel):
+class CreateOrderDTO(BaseModel):
     user_id: int
     products: List[ProductDTO]
 

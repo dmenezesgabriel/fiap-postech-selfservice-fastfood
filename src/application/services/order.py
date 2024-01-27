@@ -2,7 +2,7 @@ from typing import List
 
 from src.application.dto.order_dto import (
     CheckoutResponseDTO,
-    OrderDTO,
+    CreateOrderDTO,
     OrderResponseDTO,
 )
 from src.application.ports.order_service import OrderServiceInterface
@@ -24,7 +24,7 @@ class OrderService(OrderServiceInterface):
         self.order_repository = order_repository
         self.product_repository = product_repository
 
-    def create(self, order: OrderDTO) -> OrderResponseDTO:
+    def create(self, order: CreateOrderDTO) -> OrderResponseDTO:
         total: float = 0
 
         product_ids = [order_product.id for order_product in order.products]

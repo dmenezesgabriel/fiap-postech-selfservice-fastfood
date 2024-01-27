@@ -25,7 +25,7 @@ class ProductDTO(BaseModel):
     }
 
 
-class ProductDTOResponse(BaseModel):
+class ProductResponseDTO(BaseModel):
     id: Union[int, None] = None
     name: str
     category: str

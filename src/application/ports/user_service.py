@@ -1,7 +1,7 @@
 import abc
 from typing import List
 
-from src.application.dto.user_dto import UserDTO, UserDTOResponse
+from src.application.dto.user_dto import CreateUserDTO
 from src.domain.entities.user import User
 
 
@@ -27,7 +27,7 @@ class UserServiceInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def create(self, user: UserDTO) -> User:
+    def create(self, user: CreateUserDTO) -> User:
         raise NotImplementedError
 
     @abc.abstractmethod

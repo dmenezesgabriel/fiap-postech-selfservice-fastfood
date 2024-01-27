@@ -1,12 +1,6 @@
-from typing import List
-
 from fastapi import APIRouter
 
-from src.application.dto.order_dto import (
-    CheckoutResponseDTO,
-    OrderDTO,
-    OrderResponseDTO,
-)
+from src.application.dto.order_dto import CheckoutResponseDTO, CreateOrderDTO
 from src.application.services.order import OrderService
 from src.infrastructure.database.sqlalchemy.repositories.order import (
     OrderRepository,
@@ -23,7 +17,7 @@ order_service = OrderService(order_repository, product_repository)
 
 
 @router.post("/fake_checkout", response_model=CheckoutResponseDTO)
-async def fake_checkout(order: OrderDTO):
+async def fake_checkout(order: CreateOrderDTO):
     return order_service.create(order)
 
 

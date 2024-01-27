@@ -7,7 +7,7 @@ from src.domain.value_objects.email import Email
 from src.domain.value_objects.full_name import FullName
 
 
-class UserDTO(BaseModel):
+class CreateUserDTO(BaseModel):
     id: Union[int, None] = None
     email: EmailStr
     full_name: FullName
@@ -41,7 +41,7 @@ class UserDTO(BaseModel):
         return cpf
 
 
-class UserDTOResponse(BaseModel):
+class UserResponseDTO(BaseModel):
     id: int
     cpf: str
     email: str
