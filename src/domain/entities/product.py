@@ -1,8 +1,7 @@
 from decimal import Decimal
 from typing import Union
 
-from pydantic import ConfigDict, BaseModel
-
+from pydantic import BaseModel, ConfigDict
 
 
 class Product(BaseModel):
