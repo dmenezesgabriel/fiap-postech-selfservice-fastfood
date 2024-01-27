@@ -2,11 +2,10 @@ from typing import List
 
 from src.application.dto.product_dto import ProductDTO
 from src.application.ports.product_repository import ProductRepositoryInterface
-from src.application.ports.product_service import ProductServiceInterface
 from src.domain.entities.product import Product
 
 
-class ProductService(ProductServiceInterface):
+class ProductService:
     def __init__(self, product_repository: ProductRepositoryInterface):
         self.product_repository = product_repository
 

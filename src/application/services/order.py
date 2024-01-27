@@ -5,7 +5,6 @@ from src.application.dto.order_dto import (
     CreateOrderDTO,
     OrderResponseDTO,
 )
-from src.application.ports.order_service import OrderServiceInterface
 from src.domain.entities.order import OrderDetail, OrderItem
 from src.infrastructure.database.sqlalchemy.repositories.order import (
     OrderRepository,
@@ -15,7 +14,7 @@ from src.infrastructure.database.sqlalchemy.repositories.product import (
 )
 
 
-class OrderService(OrderServiceInterface):
+class OrderService:
     def __init__(
         self,
         order_repository: OrderRepository,

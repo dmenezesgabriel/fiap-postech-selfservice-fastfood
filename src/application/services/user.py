@@ -2,13 +2,12 @@ from typing import List
 
 from src.application.dto.user_dto import CreateUserDTO
 from src.application.ports.user_repository import UserRepositoryInterface
-from src.application.ports.user_service import UserServiceInterface
 from src.domain.base.exceptions import UserAlreadyExistsError
 from src.domain.entities.user import User
 from src.infrastructure.database.sqlalchemy.models.user import User as UserModel
 
 
-class UserService(UserServiceInterface):
+class UserService:
     """User use case or service implementation."""
 
     def __init__(self, user_repository: UserRepositoryInterface):
