@@ -2,12 +2,12 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException
 
+from src.application.dto.user_dto import UserDTO, UserDTOResponse
 from src.application.services.user import UserService
 from src.domain.entities.user import User
 from src.infrastructure.database.sqlalchemy.repositories.user import (
     UserRepository,
 )
-from src.infrastructure.http.dto.user_dto import UserDTO, UserDTOResponse
 
 user_repository = UserRepository()
 user_service = UserService(user_repository)

@@ -1,8 +1,8 @@
 import abc
 from typing import List
 
+from src.application.dto.user_dto import UserDTO, UserDTOResponse
 from src.domain.entities.user import User
-from src.infrastructure.http.dto.user_dto import UserDTO, UserDTOResponse
 
 
 class UserServiceInterface(metaclass=abc.ABCMeta):

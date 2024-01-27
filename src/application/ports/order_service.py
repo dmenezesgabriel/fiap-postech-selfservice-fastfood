@@ -1,8 +1,10 @@
 from abc import ABCMeta, abstractmethod
 from typing import List
 
-from src.infrastructure.database.sqlalchemy.repositories.order import OrderRepository
-from src.infrastructure.http.dto.order_dto import OrderDTO, OrderResponseDTO
+from src.application.dto.order_dto import OrderDTO, OrderResponseDTO
+from src.infrastructure.database.sqlalchemy.repositories.order import (
+    OrderRepository,
+)
 
 
 class OrderServiceInterface(metaclass=ABCMeta):

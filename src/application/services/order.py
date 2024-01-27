@@ -1,6 +1,11 @@
 from datetime import datetime
 from typing import List
 
+from src.application.dto.order_dto import (
+    CheckoutResponseDTO,
+    OrderDTO,
+    OrderResponseDTO,
+)
 from src.application.ports.order_service import OrderServiceInterface
 from src.domain.entities.order import OrderDetail, OrderItem
 from src.infrastructure.database.sqlalchemy.repositories.order import (
@@ -8,11 +13,6 @@ from src.infrastructure.database.sqlalchemy.repositories.order import (
 )
 from src.infrastructure.database.sqlalchemy.repositories.product import (
     ProductRepository,
-)
-from src.infrastructure.http.dto.order_dto import (
-    CheckoutResponseDTO,
-    OrderDTO,
-    OrderResponseDTO,
 )
 
 

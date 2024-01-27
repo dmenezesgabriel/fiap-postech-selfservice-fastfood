@@ -2,17 +2,17 @@ from typing import List
 
 from fastapi import APIRouter
 
+from src.application.dto.order_dto import (
+    CheckoutResponseDTO,
+    OrderDTO,
+    OrderResponseDTO,
+)
 from src.application.services.order import OrderService
 from src.infrastructure.database.sqlalchemy.repositories.order import (
     OrderRepository,
 )
 from src.infrastructure.database.sqlalchemy.repositories.product import (
     ProductRepository,
-)
-from src.infrastructure.http.dto.order_dto import (
-    CheckoutResponseDTO,
-    OrderDTO,
-    OrderResponseDTO,
 )
 
 router = APIRouter(prefix="/order", tags=["order"])

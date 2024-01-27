@@ -1,11 +1,11 @@
 from typing import List
 
+from src.application.dto.user_dto import UserDTO
 from src.application.ports.user_repository import UserRepositoryInterface
 from src.application.ports.user_service import UserServiceInterface
 from src.domain.base.exceptions import UserAlreadyExistsError
 from src.domain.entities.user import User
 from src.infrastructure.database.sqlalchemy.models.user import User as UserModel
-from src.infrastructure.http.dto.user_dto import UserDTO
 
 
 class UserService(UserServiceInterface):

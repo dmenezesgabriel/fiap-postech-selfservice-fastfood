@@ -2,10 +2,10 @@ from unittest.mock import Mock
 
 import pytest
 
+from src.application.dto.user_dto import UserDTO, UserDTOResponse
 from src.application.ports.user_repository import UserRepositoryInterface
 from src.application.services.user import UserService
 from src.domain.entities.user import User
-from src.infrastructure.http.dto.user_dto import UserDTO, UserDTOResponse
 
 
 class TestUserService:
