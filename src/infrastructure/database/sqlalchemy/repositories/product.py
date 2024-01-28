@@ -22,12 +22,13 @@ class ProductRepository(ProductRepositoryInterface):
         with self._work_manager.start() as session:
             product_category = (
                 session.query(ProductCategory)
-                .filter_by(name=product.category)
+                .filter_by(name=product.category.title())
                 .first()
             )
             product_model = ProductModel(
                 name=product.name,
                 category_id=product_category.id,
+                description=product.description,
                 price=product.price,
                 quantity=product.quantity,
             )
@@ -38,7 +39,7 @@ class ProductRepository(ProductRepositoryInterface):
         with self._work_manager.start() as session:
             product_category = (
                 session.query(ProductCategory)
-                .filter_by(name=product.category)
+                .filter_by(name=product.category.title())
                 .first()
             )
             
@@ -51,6 +52,7 @@ class ProductRepository(ProductRepositoryInterface):
             if product_model:
                 product_model.name = product.name
                 product_model.category_id = product_category.id
+                product_model.description = product.description
                 product_model.price = product.price
                 product_model.quantity = product.quantity
         return product
