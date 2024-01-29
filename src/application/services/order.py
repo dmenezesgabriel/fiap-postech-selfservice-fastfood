@@ -23,9 +23,8 @@ class OrderService:
         self.order_repository = order_repository
         self.product_repository = product_repository
 
-    def create(self, order: CreateOrderDTO) -> OrderResponseDTO:
+    def create(self, order: CreateOrderDTO) -> CheckoutResponseDTO:
         total: float = 0
-
 
         product_ids = [order_product.id for order_product in order.products]
         products = self.product_repository.get_many_by_ids(product_ids)

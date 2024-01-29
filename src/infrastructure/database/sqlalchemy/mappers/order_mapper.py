@@ -20,10 +20,11 @@ class OrderMapper:
                 product=ProductEntity(
                     id=item.product.id,
                     name=item.product.name,
+                    description=item.product.description,
                     category=item.product.category.name,
                     price=item.product.price,
                     quantity=item.product.quantity,
-                ),
+                )
             )
             for item in order_detail_model.order_items
         ]
@@ -32,7 +33,7 @@ class OrderMapper:
             id=order_detail_model.id,
             order_items=order_items,
             user_id=order_detail_model.user_id,
-            total=order_detail_model.total,
+            total=round(order_detail_model.total, 2),
         )
 
     @staticmethod

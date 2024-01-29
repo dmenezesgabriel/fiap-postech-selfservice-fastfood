@@ -21,7 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.execute("""INSERT INTO USERS (email, password, first_name, last_name, cpf, created_at, updated_at)
                 values 
-                ('foo@test.com', '12345', 'Foo', 'User', '123.456.789-11', now(), now())""")
+                ('foo@test.com', '12345', 'Foo', 'User', '12345678911', now(), now())""")
 
 
 def downgrade() -> None:

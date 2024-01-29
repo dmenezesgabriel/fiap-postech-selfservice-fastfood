@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from src.application.dto.product_dto import ProductDTO, ProductResponseDTO
 from src.application.services.product import ProductService
@@ -18,6 +18,13 @@ product_service = ProductService(product_repository)
 
 @router.post("/", response_model=ProductResponseDTO)
 async def create_product(product: ProductDTO):
+    """
+     # Criação de produto
+
+     ## Observações:
+
+     * O campo name deve ser único na base de dados
+     """
     return product_service.create(product)
 
 
@@ -34,9 +41,21 @@ async def update_product(product_id: int, updated_product: ProductDTO):
 
 @router.get("/{category}", response_model=List[ProductResponseDTO])
 async def list_by_category(category: str):
+    """
+         # Busca por categoria
+
+         ## Observações:
+
+         * ex: lanche, sobremesa, bebida, acompanhamento"""
     return product_service.list_by_category(category.title())
 
 
-@router.delete("/{product_id}")
+@router.delete("/{product_id}", response_model=str)
 async def delete_product(product_id: int):
-    return product_service.delete(product_id)
+
+    if product_service.get_by_id(product_id) is False:
+        raise HTTPException(status_code=404, detail="Product not found")
+    product_service.delete(product_id)
+    return "Product successfully removed"
+
+

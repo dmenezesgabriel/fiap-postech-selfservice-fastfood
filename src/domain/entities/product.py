@@ -9,7 +9,7 @@ class Product(BaseModel):
 
     id: Union[int, None] = None
     name: str
-    description: str
+    description: Union[str, None] = None
     category: str
     price: Decimal
     quantity: int
