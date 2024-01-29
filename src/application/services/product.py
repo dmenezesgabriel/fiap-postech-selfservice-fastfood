@@ -1,9 +1,10 @@
 from typing import List
 
-from src.application.dto.product_dto import ProductDTO
+from src.application.dto.product_dto import ProductDTO, ProductResponseDTO
 from src.application.ports.product_repository import ProductRepositoryInterface
 from src.domain.base.exceptions import EntityAlreadyExistsError, NotFoundError
 from src.domain.entities.product import Product
+from src.infrastructure.database.sqlalchemy.mappers.product_mapper import ProductMapper
 
 
 class ProductService:
@@ -27,29 +28,24 @@ class ProductService:
 
         return self.product_repository.update(product)
 
-    def get_by_id(self, product_id: int) -> Product:
+    def get_by_id(self, product_id: int) -> ProductResponseDTO:
         product = self.product_repository.get_by_id(product_id)
 
         if not product:
             raise NotFoundError(f"Product with ID {product_id} not found")
 
-        return Product(
-            id=product.id,
-            name=product.name,
-            price=product.price,
-            category=product.category.name,
-            quantity=product.quantity,
-        )
+        return ProductMapper.entity_to_dto(product)
 
-    def list_all(self) -> List[Product]:
+    def list_all(self) -> List[ProductResponseDTO]:
         products = self.product_repository.list_all()
         product_list = list()
 
         for product in products:
             product_list.append(
-                Product(
+                ProductResponseDTO(
                     id=product.id,
                     name=product.name,
+                    description=product.description,
                     price=product.price,
                     category=product.category.name,
                     quantity=product.quantity,
@@ -57,19 +53,13 @@ class ProductService:
             )
         return product_list
 
-    def list_by_category(self, category: str) -> List[Product]:
+    def list_by_category(self, category: str) -> List[ProductResponseDTO]:
         products = self.product_repository.list_by_category(category)
         product_list = list()
 
         for product in products:
             product_list.append(
-                Product(
-                    id=product.id,
-                    name=product.name,
-                    price=product.price,
-                    category=product.category.name,
-                    quantity=product.quantity,
-                )
+                ProductMapper.entity_to_dto(product)
             )
         return product_list
 
