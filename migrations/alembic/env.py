@@ -8,7 +8,6 @@ from src.infrastructure.database.sqlalchemy.models import (
     order,
     payment,
     product,
-    shopping,
     user,
 )
 from src.infrastructure.database.sqlalchemy.orm import Base

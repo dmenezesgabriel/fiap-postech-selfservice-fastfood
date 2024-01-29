@@ -1,8 +1,8 @@
-from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Column, Float, ForeignKey, Integer
+from sqlalchemy.orm import relationship
 
+from src.infrastructure.database.sqlalchemy.models.base import BaseModel
 from src.infrastructure.database.sqlalchemy.orm import Base
-
-from .base import BaseModel
 
 
 class OrderDetail(Base, BaseModel):
@@ -10,7 +10,7 @@ class OrderDetail(Base, BaseModel):
 
     user_id = Column(Integer, ForeignKey("users.id"))
     total = Column(Float)
-    # payment_id = Column(Integer,ForeignKey("payment_details.id"))
+    order_items = relationship("OrderItem", lazy="joined")
 
 
 class OrderItem(Base, BaseModel):
@@ -18,3 +18,5 @@ class OrderItem(Base, BaseModel):
 
     order_id = Column(Integer, ForeignKey("order_details.id"))
     product_id = Column(Integer, ForeignKey("product.id"))
+    order_detail = relationship("OrderDetail", back_populates="order_items")
+    product = relationship("Product", lazy="joined")

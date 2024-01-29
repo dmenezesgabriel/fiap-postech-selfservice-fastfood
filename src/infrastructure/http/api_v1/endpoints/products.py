@@ -2,33 +2,37 @@ from typing import List
 
 from fastapi import APIRouter
 
+from src.application.dto.product_dto import ProductDTO, ProductResponseDTO
 from src.application.services.product import ProductService
 from src.domain.entities.product import Product
 from src.infrastructure.database.sqlalchemy.repositories.product import (
     ProductRepository,
 )
-from src.infrastructure.database.sqlalchemy.unit_of_work_manager import (
-    SQLAlchemyUnitOfWorkManager,
-)
 
 router = APIRouter(prefix="/products", tags=["products"])
 
-work_manager = SQLAlchemyUnitOfWorkManager()
-product_repository = ProductRepository(work_manager)
+
+product_repository = ProductRepository()
 product_service = ProductService(product_repository)
 
 
-@router.post("/", response_model=Product)
-async def create_product(product: Product):
+@router.post("/", response_model=ProductResponseDTO)
+async def create_product(product: ProductDTO):
     return product_service.create(product)
 
 
-@router.get("/", response_model=List[Product])
+@router.get("/", response_model=List[ProductResponseDTO])
 async def list_product():
     return product_service.list_all()
 
 
-@router.get("/{category}", response_model=List[Product])
+@router.put("/{product_id}", response_model=ProductResponseDTO)
+async def update_product(product_id: int, updated_product: ProductDTO):
+    product = Product(id=product_id, **updated_product.model_dump())
+    return product_service.update(product)
+
+
+@router.get("/{category}", response_model=List[ProductResponseDTO])
 async def list_by_category(category: str):
     return product_service.list_by_category(category.title())
 

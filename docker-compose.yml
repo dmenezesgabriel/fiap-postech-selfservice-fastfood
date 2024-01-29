@@ -18,6 +18,7 @@ services:
     build: .
     volumes:
       - ./migrations:/app/migrations
+      - ./src:/app/src
     env_file:
       - .env.template
     depends_on:
