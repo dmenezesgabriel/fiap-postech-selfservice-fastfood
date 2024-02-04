@@ -14,8 +14,8 @@ spec:
           env:
             - name: DATABASE_URL
               valueFrom:
-                configMapKeyRef:
-                  name: config-fiap-postech-selfservice-fastfood
+                secretKeyRef:
+                  name: secret-fiap-postech-selfservice-fastfood
                   key: DATABASE_URL
       restartPolicy: OnFailure
   backoffLimit: 15

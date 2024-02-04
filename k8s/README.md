@@ -51,7 +51,7 @@ docker push alorencatto/fiap-postech-selfservice-fastfood
 kubectl apply -f namespace/ns.yml
 
 -- Application
-kubectl apply -f code/config-map.yml -n postech
+kubectl apply -f code/secret.yml -n postech
 kubectl apply -f code/deployment.yml -n postech
 kubectl apply -f code/service.yml -n postech
 kubectl apply -f code/nodeport-service.yml -n postech
@@ -65,13 +65,7 @@ kubectl apply -f postgres/deployment.yml -n postech
 kubectl apply -f postgres/service.yml -n postech
 
 -- Migration Job
-kubectl apply -f job/migration-secret.yml -n postech # Not used yet
 kubectl apply -f job/migration.yml -n postech
-
--- Nginx
-kubectl apply -f nginx/nginx-config.yml -n postech
-kubectl apply -f nginx/nginx-deployment.yml -n postech
-kubectl apply -f nginx/nginx-service.yml -n postech
 
 -- Get resources
 kubectl get deployments -n postech
@@ -104,7 +98,7 @@ kubectl rollout restart deployment fiap-postech-selfservice-fastfood -n postech
 
 kubectl get events --all-namespaces  --sort-by='.metadata.creationTimestamp'
 
-kubectl fiap-postech-selfservice-fastfood-84f4fcb59-j4fkf -n postech
+kubectl logs fiap-postech-selfservice-fastfood-f4fdc55c9-kxsbt -n postech
 kubectl logs fiap-postech-selfservice-fastfood-nginx-deployment-55d6d96n7h6m -n postech
 kubectl logs postgres-deployment-857594b99c-tq8kn -n postech
 kubectl logs fiap-postech-selfservice-fastfood-migrations-7kkg5 -n postech
@@ -114,7 +108,7 @@ kubectl logs fiap-postech-selfservice-fastfood-migrations-7kkg5 -n postech
 ```shell
 kubectl delete -f namespace/ns.yml
 
-kubectl delete -f code/config-map.yml -n postech
+kubectl delete -f code/secret.yml -n postech
 kubectl delete -f code/deployment.yml -n postech
 kubectl delete -f code/service.yml -n postech
 kubectl delete -f code/nodeport-service.yml -n postech
@@ -127,10 +121,6 @@ kubectl delete -f postgres/secret.yml -n postech
 kubectl delete -f postgres/deployment.yml -n postech
 kubectl delete -f postgres/pvc.yml -n postech
 kubectl delete -f postgres/service.yml -n postech
-
-kubectl delete -f nginx/nginx-config.yml -n postech
-kubectl delete -f nginx/nginx-deployment.yml -n postech
-kubectl delete -f nginx/nginx-service.yml -n postech
 ```
 
 ## Stress test
