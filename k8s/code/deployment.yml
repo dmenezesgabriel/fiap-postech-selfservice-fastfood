@@ -41,6 +41,6 @@ spec:
         env:
           - name: DATABASE_URL
             valueFrom:
-              configMapKeyRef:
-                name: config-fiap-postech-selfservice-fastfood
+              secretKeyRef: # TODO : Mudar aqui pra secret
+                name: secret-fiap-postech-selfservice-fastfood
                 key: DATABASE_URL

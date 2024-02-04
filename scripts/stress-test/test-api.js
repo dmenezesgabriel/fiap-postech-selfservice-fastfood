@@ -11,5 +11,5 @@ export const options = {
 
 export default function () {
   http.get('http://localhost:8000/api/v1/users/');
-  sleep(0.3);  // Sleep for 0.3 second between requests
+  sleep(0.1);  // Sleep for 0.3 second between requests
 }
