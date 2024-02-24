@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.config import get_config
-from src.external.web.api_v1.api import router as api_router
-from src.external.web.exception_handlers import register_exceptions
+from src.external.web.fastapi.api_v1.api import router as api_router
+from src.external.web.fastapi.exception_handlers import register_exceptions
 
 config = get_config()
 
