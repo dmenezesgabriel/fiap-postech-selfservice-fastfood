@@ -1,8 +1,11 @@
+from typing import List
+
 from src.common.dto.order_dto import CreateOrderDTO
 from src.common.interfaces.order_repository import OrderRepositoryInterface
 from src.common.interfaces.product_repository import ProductRepositoryInterface
 from src.communication.gateway.order import OrderGateway
 from src.communication.gateway.product import ProductGateway
+from src.core.domain.entities.order import OrderDetailEntity
 from src.core.use_cases.order import OrderUseCase
 
 
@@ -11,11 +14,11 @@ class OrderController:
         self,
         order_repository: OrderRepositoryInterface,
         product_repository: ProductRepositoryInterface,
-    ):
+    ) -> None:
         self.order_repository = order_repository
         self.product_repository = product_repository
 
-    def create_order(self, order: CreateOrderDTO):
+    def create_order(self, order: CreateOrderDTO) -> OrderDetailEntity:
         order_gateway = OrderGateway(self.order_repository)
         product_gateway = ProductGateway(self.product_repository)
         return OrderUseCase.create(
@@ -24,6 +27,6 @@ class OrderController:
             product_gateway=product_gateway,
         )
 
-    def list_orders(self):
+    def list_orders(self) -> List[OrderDetailEntity]:
         order_gateway = OrderGateway(self.order_repository)
         return OrderUseCase.list_all(order_gateway=order_gateway)

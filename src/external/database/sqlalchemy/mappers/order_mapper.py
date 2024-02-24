@@ -22,6 +22,7 @@ class OrderMapper:
                     price=item.product.price,
                     quantity=item.product.quantity,
                 ),
+                quantity=item.quantity,
             )
             for item in order_detail_model.order_items
         ]
@@ -37,7 +38,9 @@ class OrderMapper:
     def entity_to_model(order_detail_entity):
         order_items_models = [
             OrderItemModel(
-                order_id=order_detail_entity.id, product_id=item.product_id
+                order_id=order_detail_entity.id,
+                product_id=item.product_id,
+                quantity=item.quantity,
             )
             for item in order_detail_entity.order_items
         ]

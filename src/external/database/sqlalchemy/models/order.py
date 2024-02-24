@@ -18,6 +18,7 @@ class OrderItemModel(Base, BaseModel):
 
     order_id = Column(Integer, ForeignKey("order_details.id"))
     product_id = Column(Integer, ForeignKey("product.id"))
+    quantity = Column(Integer)
     order_detail = relationship(
         "OrderDetailModel", back_populates="order_items"
     )
