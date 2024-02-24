@@ -33,7 +33,7 @@ class CreateOrderDTO(BaseModel):
 
 class CheckoutResponseDTO(BaseModel):
     user_id: int
-    transacion_amount: float
+    transaction_amount: float
     payment_method: str
     description: str
     products: List[ProductDTO]

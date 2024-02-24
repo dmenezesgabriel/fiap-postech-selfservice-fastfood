@@ -1,43 +1,51 @@
 from typing import List
 
-from src.common.interfaces.user_repository import UserRepositoryInterface
+from src.common.interfaces.user_gateway import UserGatewayInterface
 from src.core.domain.entities.user import UserEntity
 from src.core.domain.exceptions import UserAlreadyExistsError
 
 
-class UserService:
-    """User use case or service implementation."""
+class UserUseCase:
+    @staticmethod
+    def get_by_id(id: int, user_gateway: UserGatewayInterface) -> UserEntity:
+        return user_gateway.get_by_id(id)
 
-    def __init__(self, user_repository: UserRepositoryInterface):
-        self.user_repository = user_repository
+    @staticmethod
+    def get_by_email(
+        email: str, user_gateway: UserGatewayInterface
+    ) -> UserEntity:
+        return user_gateway.get_by_email(email)
 
-    def get_by_id(self, id: int) -> UserEntity:
-        return self.user_repository.get_by_id(id)
+    @staticmethod
+    def get_by_cpf(cpf: str, user_gateway: UserGatewayInterface) -> UserEntity:
+        return user_gateway.get_by_cpf(cpf)
 
-    def get_by_email(self, email: str) -> UserEntity:
-        return self.user_repository.get_by_email(email)
+    @staticmethod
+    def list_all(user_gateway: UserGatewayInterface) -> List[UserEntity]:
+        return user_gateway.list_all()
 
-    def get_by_cpf(self, cpf: str) -> UserEntity:
-        return self.user_repository.get_by_cpf(cpf)
-
-    def list_all(self) -> List[UserEntity]:
-        return self.user_repository.list_all()
-
-    def create(self, user: UserEntity) -> UserEntity:
-        if self.user_repository.get_by_email(user.email) is not None:
+    @staticmethod
+    def create(
+        user: UserEntity, user_gateway: UserGatewayInterface
+    ) -> UserEntity:
+        if user_gateway.get_by_email(user.email) is not None:
             raise UserAlreadyExistsError(
                 f"User already exists with this e-mail ({user.email})."
             )
 
-        if self.user_repository.get_by_cpf(user.cpf) is not None:
+        if user_gateway.get_by_cpf(user.cpf) is not None:
             raise UserAlreadyExistsError(
                 f"User already exists with this cpf ({user.cpf})."
             )
 
-        return self.user_repository.create(user)
+        return user_gateway.create(user)
 
-    def update(self, user: UserEntity) -> UserEntity:
-        return self.user_repository.update(user)
+    @staticmethod
+    def update(
+        user: UserEntity, user_gateway: UserGatewayInterface
+    ) -> UserEntity:
+        return user_gateway.update(user)
 
-    def delete(self, id: int) -> bool:
-        return self.user_repository.delete(id)
+    @staticmethod
+    def delete(id: int, user_gateway: UserGatewayInterface) -> bool:
+        return user_gateway.delete(id)
