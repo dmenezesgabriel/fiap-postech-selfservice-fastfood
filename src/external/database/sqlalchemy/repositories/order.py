@@ -12,28 +12,30 @@ from src.external.database.sqlalchemy.session_mixin import use_database_session
 
 
 class OrderRepository(OrderRepositoryInterface):
+
     def create(
         self,
         order_detail: OrderDetailEntity,
         order_items: List[OrderItemEntity],
-    ) -> None:
+    ) -> OrderDetailEntity:
         with use_database_session() as session:
-            order_detail: OrderDetailModel = OrderDetailModel(
+            order_detail_model = OrderDetailModel(
                 user_id=order_detail.user_id,
                 total=order_detail.total,
                 updated_at=datetime.now(),
             )
 
-            session.add(order_detail)
+            session.add(order_detail_model)
 
             session.flush()
 
-            order_id: int = order_detail.id
+            order_id: int = order_detail_model.id
 
             order_items_models = [
                 OrderItemModel(
                     order_id=order_id,
                     product_id=item.product_id,
+                    quantity=item.quantity,
                     updated_at=datetime.now(),
                 )
                 for item in order_items
@@ -41,6 +43,7 @@ class OrderRepository(OrderRepositoryInterface):
 
             session.bulk_save_objects(order_items_models)
             session.commit()
+            return OrderMapper.model_to_entity(order_detail_model)
 
     def list_all(self) -> List[OrderDetailEntity]:
         with use_database_session() as session:

@@ -2,7 +2,6 @@ import abc
 from typing import List
 
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
-from src.core.domain.entities.product import ProductEntity
 
 
 class OrderRepositoryInterface(metaclass=abc.ABCMeta):
@@ -11,9 +10,9 @@ class OrderRepositoryInterface(metaclass=abc.ABCMeta):
         self,
         order_detail: OrderDetailEntity,
         order_items: List[OrderItemEntity],
-    ) -> None:
+    ) -> OrderDetailEntity:
         raise NotImplementedError
 
     @abc.abstractmethod
-    def list_all(self) -> List[ProductEntity]:
+    def list_all(self) -> List[OrderDetailEntity]:
         raise NotImplementedError

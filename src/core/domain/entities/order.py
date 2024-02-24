@@ -10,6 +10,7 @@ class OrderItemEntity(BaseModel):
     order_detail_id: Union[int, None] = None
     product_id: int
     product: Union[ProductEntity, None] = None
+    quantity: int
 
 
 class OrderDetailEntity(BaseModel):
