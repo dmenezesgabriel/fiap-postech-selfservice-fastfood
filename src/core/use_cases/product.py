@@ -1,7 +1,7 @@
 from typing import List
 
 from src.common.dto.product_dto import ProductDTO, ProductResponseDTO
-from src.common.interfaces.product_repository import ProductRepositoryInterface
+from src.common.interfaces.product_gateway import ProductGatewayInterface
 from src.core.domain.entities.product import ProductEntity
 from src.core.domain.exceptions import EntityAlreadyExistsError, NotFoundError
 from src.external.database.sqlalchemy.mappers.product_mapper import (
@@ -9,43 +9,49 @@ from src.external.database.sqlalchemy.mappers.product_mapper import (
 )
 
 
-class ProductService:
-    def __init__(self, product_repository: ProductRepositoryInterface):
-        self.product_repository = product_repository
+class ProductUseCase:
+    @staticmethod
+    def create(
+        product: ProductDTO, product_gateway: ProductGatewayInterface
+    ) -> ProductEntity:
 
-    def create(self, product: ProductDTO) -> ProductEntity:
-
-        existing_product: ProductEntity = (
-            self.product_repository.get_by_product_name(
-                product_name=product.name
-            )
+        existing_product: ProductEntity = product_gateway.get_by_product_name(
+            product_name=product.name
         )
 
         if existing_product:
             raise EntityAlreadyExistsError(
                 f"Product with this name ({product.name}) already exists"
             )
+        return product_gateway.create(product=product)
 
-        return self.product_repository.create(product)
-
-    def update(self, product: ProductEntity) -> ProductEntity:
-        existing_product = self.product_repository.get_by_id(product.id)
+    @staticmethod
+    def update(
+        product: ProductEntity, product_gateway: ProductGatewayInterface
+    ) -> ProductEntity:
+        existing_product = product_gateway.get_by_id(product.id)
 
         if not existing_product:
             raise NotFoundError(f"Product with ID {product.id} not found")
 
-        return self.product_repository.update(product)
+        return product_gateway.update(product)
 
-    def get_by_id(self, product_id: int) -> ProductResponseDTO:
-        product = self.product_repository.get_by_id(product_id)
+    @staticmethod
+    def get_by_id(
+        product_id: int, product_gateway: ProductGatewayInterface
+    ) -> ProductResponseDTO:
+        product = product_gateway.get_by_id(product_id)
 
         if not product:
             raise NotFoundError(f"Product with ID {product_id} not found")
 
         return ProductMapper.entity_to_dto(product)
 
-    def list_all(self) -> List[ProductResponseDTO]:
-        products = self.product_repository.list_all()
+    @staticmethod
+    def list_all(
+        product_gateway: ProductGatewayInterface,
+    ) -> List[ProductResponseDTO]:
+        products = product_gateway.list_all()
         product_list = list()
 
         for product in products:
@@ -61,13 +67,19 @@ class ProductService:
             )
         return product_list
 
-    def list_by_category(self, category: str) -> List[ProductResponseDTO]:
-        products = self.product_repository.list_by_category(category)
+    @staticmethod
+    def list_by_category(
+        category: str, product_gateway: ProductGatewayInterface
+    ) -> List[ProductResponseDTO]:
+        products = product_gateway.list_by_category(category)
         product_list = list()
 
         for product in products:
             product_list.append(ProductMapper.entity_to_dto(product))
         return product_list
 
-    def delete(self, product_id: int) -> bool:
-        return self.product_repository.delete(product_id)
+    @staticmethod
+    def delete(
+        product_id: int, product_gateway: ProductGatewayInterface
+    ) -> bool:
+        return product_gateway.delete(product_id)

@@ -5,7 +5,7 @@ from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
 from src.core.domain.entities.product import ProductEntity
 
 
-class OrderRepositoryInterface(metaclass=abc.ABCMeta):
+class OrderGatewayInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def create(
         self,

@@ -4,7 +4,7 @@ from typing import List
 from src.core.domain.entities.product import ProductEntity
 
 
-class ProductRepositoryInterface(metaclass=abc.ABCMeta):
+class ProductGatewayInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def create(self, product: ProductEntity) -> ProductEntity:
         raise NotImplementedError
@@ -30,7 +30,7 @@ class ProductRepositoryInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_by_id(self, product_id: int) -> ProductEntity:
+    def get_by_id(self, product_id: str) -> ProductEntity:
         raise NotImplementedError
 
     @abc.abstractmethod
