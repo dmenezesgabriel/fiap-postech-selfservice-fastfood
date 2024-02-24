@@ -3,22 +3,23 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from src.infrastructure.config.settings import Config
-from src.infrastructure.database.sqlalchemy.models import (
-    order,
-    payment,
-    product,
-    user,
-)
-from src.infrastructure.database.sqlalchemy.orm import Base
+from src.config import get_config
+from src.external.database.sqlalchemy.models import order  # noqa
+from src.external.database.sqlalchemy.models import payment  # noqa
+from src.external.database.sqlalchemy.models import product  # noqa
+from src.external.database.sqlalchemy.models import user  # noqa
+from src.external.database.sqlalchemy.orm import Base
+
+app_config = get_config()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+
 config = context.config
 
 # this will overwrite the ini-file sqlalchemy.url path
 # with the path given in the config of the main code
-config.set_main_option("DATABASE_URL", Config.DATABASE_URL)
+config.set_main_option("DATABASE_URL", app_config.DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -76,7 +77,8 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
         )
 
         with context.begin_transaction():
