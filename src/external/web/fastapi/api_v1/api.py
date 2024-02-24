@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.external.web.api_v1.endpoints import order, products, users
+from src.external.web.fastapi.api_v1.endpoints import order, products, users
 
 router = APIRouter()
 
