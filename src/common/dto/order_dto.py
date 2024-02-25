@@ -2,6 +2,8 @@ from typing import List
 
 from pydantic import BaseModel
 
+from src.core.domain.value_objects.order_status import OrderStatus
+
 
 class ProductDTO(BaseModel):
     id: int
@@ -37,6 +39,7 @@ class CheckoutResponseDTO(BaseModel):
     transaction_amount: float
     payment_method: str
     description: str
+    status: OrderStatus
     products: List[ProductDTO]
 
 
@@ -44,4 +47,5 @@ class OrderResponseDTO(BaseModel):
     id: int
     user_id: int
     total: float
+    status: OrderStatus
     order_items: List[ProductDTO]

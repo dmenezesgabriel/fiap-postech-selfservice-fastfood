@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, ForeignKey, Integer
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from src.external.database.sqlalchemy.models.base import BaseModel
@@ -10,6 +10,7 @@ class OrderDetailModel(Base, BaseModel):
 
     user_id = Column(Integer, ForeignKey("users.id"))
     total = Column(Float)
+    status = Column(String)
     order_items = relationship("OrderItemModel", lazy="joined")
 
 

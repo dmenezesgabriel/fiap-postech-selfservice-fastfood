@@ -23,6 +23,7 @@ class OrderRepository(OrderRepositoryInterface):
                 user_id=order_detail.user_id,
                 total=order_detail.total,
                 updated_at=datetime.now(),
+                status=str(order_detail.status),
             )
 
             session.add(order_detail_model)

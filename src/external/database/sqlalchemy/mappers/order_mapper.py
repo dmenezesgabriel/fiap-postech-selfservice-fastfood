@@ -1,5 +1,6 @@
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
 from src.core.domain.entities.product import ProductEntity
+from src.core.domain.value_objects.order_status import OrderStatus
 from src.external.database.sqlalchemy.models.order import (
     OrderDetailModel,
     OrderItemModel,
@@ -32,6 +33,7 @@ class OrderMapper:
             order_items=order_items,
             user_id=order_detail_model.user_id,
             total=round(order_detail_model.total, 2),
+            status=OrderStatus(order_detail_model.status),
         )
 
     @staticmethod
@@ -50,4 +52,5 @@ class OrderMapper:
             user_id=order_detail_entity.user_id,
             total=order_detail_entity.total,
             order_items=order_items_models,
+            status=str(order_detail_entity.status),
         )

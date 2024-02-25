@@ -8,6 +8,7 @@ from src.common.dto.order_dto import (
 from src.common.interfaces.order_gateway import OrderGatewayInterface
 from src.common.interfaces.product_gateway import ProductGatewayInterface
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
+from src.core.domain.value_objects.order_status import OrderStatus
 
 
 class OrderUseCase:
@@ -26,8 +27,7 @@ class OrderUseCase:
             total += product.price * order_product.quantity
 
         order_detail: OrderDetailEntity = OrderDetailEntity(
-            user_id=order.user_id,
-            total=total,
+            user_id=order.user_id, total=total, status=OrderStatus.RECEIVED
         )
 
         order_items: List[OrderItemEntity] = [
@@ -42,6 +42,7 @@ class OrderUseCase:
             transaction_amount=round(total, 2),
             payment_method="credit-card",
             description="Fake description",
+            status=new_order.status,
             products=[
                 ProductDTO(id=product.id, quantity=product.quantity)
                 for product in new_order.order_items
