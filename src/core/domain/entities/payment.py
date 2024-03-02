@@ -10,6 +10,7 @@ class PaymentEntity(BaseModel):
 
     id: Union[int, None] = None
     order_id: int
+    user_id: int
     amount: float
     provider: str
     status: PaymentStatusEnum

@@ -7,7 +7,7 @@ from src.external.database.sqlalchemy.repositories.product import (
     ProductRepository,
 )
 
-router = APIRouter(prefix="/order", tags=["order"])
+router = APIRouter(prefix="/orders", tags=["orders"])
 
 order_repository = OrderRepository()
 product_repository = ProductRepository()

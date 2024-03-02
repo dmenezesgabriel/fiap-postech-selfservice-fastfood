@@ -8,7 +8,7 @@ from src.external.database.sqlalchemy.session_mixin import use_database_session
 
 
 class UserRepository(UserRepositoryInterface):
-    def get_by_id(self, id: int) -> UserModel:
+    def get_by_id(self, id: int) -> UserEntity:
         with use_database_session() as session:
             user = session.query(UserModel).filter_by(id=id).first()
             return UserMapper.model_to_entity(user) if user else None
