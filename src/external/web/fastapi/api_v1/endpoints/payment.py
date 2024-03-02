@@ -19,7 +19,7 @@ router = APIRouter(prefix="/payments", tags=["payments"])
 
 
 @router.get("/user/{user_id}", response_model=List[PaymentDTO])
-async def get_many_by_user_id(user_id: int):
+async def get_many_payments_by_user_id(user_id: int):
     payments = payment_controller.get_many_by_user_id(user_id=user_id)
     return [
         PaymentDTO(
@@ -35,7 +35,7 @@ async def get_many_by_user_id(user_id: int):
 
 
 @router.get("/{payment_id}", response_model=PaymentDTO)
-async def get_by_id(payment_id: int):
+async def get_payment_by_id(payment_id: int):
     payment = payment_controller.get_by_id(payment_id=payment_id)
     if payment is None:
         raise HTTPException(status_code=404, detail="Payment not found")
@@ -50,7 +50,7 @@ async def get_by_id(payment_id: int):
 
 
 @router.get("/order/{order_id}", response_model=PaymentDTO)
-async def get_by_order_id(order_id: int):
+async def get_payment_by_order_id(order_id: int):
     payment = payment_controller.get_by_order_id(order_id=order_id)
     if payment is None:
         raise HTTPException(status_code=404, detail="Payment not found")
@@ -65,7 +65,7 @@ async def get_by_order_id(order_id: int):
 
 
 @router.post("/", response_model=PaymentDTO)
-async def create(payment: CreatePaymentDTO):
+async def create_payment(payment: CreatePaymentDTO):
     new_payment = payment_controller.create(payment=payment)
     return PaymentDTO(
         id=new_payment.id,
@@ -78,14 +78,14 @@ async def create(payment: CreatePaymentDTO):
 
 
 @router.put("/{payment_id}", response_model=PaymentDTO)
-async def update(payment_id: int, payment: UpdatePaymentDTO):
+async def update_payment(payment_id: int, payment: UpdatePaymentDTO):
     return payment_controller.update(
         payment_id=payment_id, updated_payment=payment
     )
 
 
 @router.delete("/{payment_id}")
-async def delete(payment_id: int):
+async def delete_payment(payment_id: int):
     if payment_controller.get_by_id(payment_id) is False:
         raise HTTPException(status_code=404, detail="Payment not found")
     return payment_controller.delete(payment_id=payment_id)

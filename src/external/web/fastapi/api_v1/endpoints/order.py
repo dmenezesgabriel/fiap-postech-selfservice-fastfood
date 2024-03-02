@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.common.dto.order_dto import CheckoutResponseDTO, CreateOrderDTO
+from src.common.dto.order_dto import CreateOrderDTO, OrderResponseDTO
 from src.communication.controller.order import OrderController
 from src.external.database.sqlalchemy.repositories.order import OrderRepository
 from src.external.database.sqlalchemy.repositories.product import (
@@ -16,8 +16,8 @@ order_controller = OrderController(
 )
 
 
-@router.post("/fake_checkout", response_model=CheckoutResponseDTO)
-async def fake_checkout(order: CreateOrderDTO):
+@router.post("/", response_model=OrderResponseDTO)
+async def create_order(order: CreateOrderDTO):
     return order_controller.create_order(order)
 
 
