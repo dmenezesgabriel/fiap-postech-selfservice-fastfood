@@ -6,6 +6,7 @@ from src.common.dto.payment_dto import (
     CreatePaymentDTO,
     PaymentDTO,
     UpdatePaymentDTO,
+    WebhookDTO,
 )
 from src.communication.controller.payment import PaymentController
 from src.external.database.sqlalchemy.repositories.payment import (
@@ -28,6 +29,7 @@ async def get_many_payments_by_user_id(user_id: int):
             order_id=payment.order_id,
             amount=payment.amount,
             provider=payment.provider,
+            qr_data=payment.qr_data,
             status=payment.status,
         )
         for payment in payments
@@ -45,6 +47,7 @@ async def get_payment_by_id(payment_id: int):
         order_id=payment.order_id,
         amount=payment.amount,
         provider=payment.provider,
+        qr_data=payment.qr_data,
         status=payment.status,
     )
 
@@ -60,6 +63,7 @@ async def get_payment_by_order_id(order_id: int):
         order_id=payment.order_id,
         amount=payment.amount,
         provider=payment.provider,
+        qr_data=payment.qr_data,
         status=payment.status,
     )
 
@@ -73,6 +77,7 @@ async def create_payment(payment: CreatePaymentDTO):
         user_id=new_payment.user_id,
         amount=new_payment.amount,
         provider=new_payment.provider,
+        qr_data=new_payment.qr_data,
         status=new_payment.status,
     )
 
@@ -91,6 +96,22 @@ async def delete_payment(payment_id: int):
     return payment_controller.delete(payment_id=payment_id)
 
 
-@router.post("/webhook")
-async def webhook(payment: PaymentDTO):
-    pass
+@router.post("/webhook", response_model=PaymentDTO)
+async def webhook(webhook_data: WebhookDTO):
+    payment = payment_controller.get_by_order_id(
+        order_id=webhook_data.order_id
+    )
+    if payment is None:
+        raise HTTPException(status_code=404, detail="Payment not found")
+
+    updated_payment = UpdatePaymentDTO(
+        order_id=payment.order_id,
+        user_id=payment.user_id,
+        qr_data=payment.qr_data,
+        amount=payment.amount,
+        provider=payment.provider,
+        status=webhook_data.payment_status,
+    )
+    return payment_controller.update(
+        payment_id=payment.id, updated_payment=updated_payment
+    )

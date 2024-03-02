@@ -13,6 +13,7 @@ class PaymentDetailsModel(Base, BaseModel):
     user_id = Column(Integer, ForeignKey("users.id"))
     amount = Column(Float)
     provider = Column(String(50))
+    qr_data = Column(String(250))
     status = Column(Enum(PaymentStatusEnum))
     order = relationship("OrderDetailModel", lazy="joined")
     user = relationship("UserModel", lazy="joined")

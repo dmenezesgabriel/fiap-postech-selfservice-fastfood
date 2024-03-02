@@ -17,7 +17,7 @@ class OrderUseCase:
         order: CreateOrderDTO,
         order_gateway: OrderGatewayInterface,
         product_gateway: ProductGatewayInterface,
-    ) -> OrderDetailEntity:
+    ) -> OrderResponseDTO:
         total: float = 0
 
         product_ids = [order_product.id for order_product in order.products]
@@ -36,6 +36,9 @@ class OrderUseCase:
         ]
 
         new_order = order_gateway.create(order_detail, order_items)
+        if not new_order.id:
+            raise Exception("Error creating order")
+
         return OrderResponseDTO(
             id=new_order.id,
             user_id=new_order.user_id,
@@ -44,6 +47,7 @@ class OrderUseCase:
             order_items=[
                 ProductDTO(id=product.id, quantity=product.quantity)
                 for product in new_order.order_items
+                if product.id
             ],
         )
 

@@ -14,6 +14,7 @@ class PaymentDetailsMapper:
             user_id=cast(int, payment_model.user_id),
             amount=cast(float, payment_model.amount),
             provider=cast(str, payment_model.provider),
+            qr_data=cast(str, payment_model.qr_data),
             status=cast(PaymentStatusEnum, payment_model.status),
         )
 
@@ -25,5 +26,6 @@ class PaymentDetailsMapper:
             user_id=payment_entity.user_id,
             amount=payment_entity.amount,
             provider=payment_entity.provider,
+            qr_data=payment_entity.qr_data,
             status=payment_entity.status,
         )
