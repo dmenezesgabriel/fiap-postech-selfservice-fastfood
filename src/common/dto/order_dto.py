@@ -33,6 +33,10 @@ class CreateOrderDTO(BaseModel):
     }
 
 
+class OrderStatusDTO(BaseModel):
+    status: str
+
+
 class CheckoutResponseDTO(BaseModel):
     id: int
     user_id: int

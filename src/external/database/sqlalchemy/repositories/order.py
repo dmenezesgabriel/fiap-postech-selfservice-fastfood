@@ -3,6 +3,7 @@ from typing import List
 
 from src.common.interfaces.order_repository import OrderRepositoryInterface
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
+from src.core.domain.exceptions import NotFoundError
 from src.external.database.sqlalchemy.mappers.order_mapper import OrderMapper
 from src.external.database.sqlalchemy.models.order import (
     OrderDetailModel,
@@ -50,3 +51,19 @@ class OrderRepository(OrderRepositoryInterface):
         with use_database_session() as session:
             orders = session.query(OrderDetailModel).join(OrderItemModel).all()
             return [OrderMapper.model_to_entity(order) for order in orders]
+
+    def update_order_status(self, order_id: int, order_status: str) -> OrderDetailEntity:
+        with (use_database_session() as session):
+            order_detail = session.query(OrderDetailModel).filter_by(
+                id=order_id
+            ).first()
+
+            if not order_detail:
+                raise NotFoundError("Order not found")
+
+            order_detail.status = order_status
+            order_detail.updated_at = datetime.now()
+            session.commit()
+
+            return OrderMapper.model_to_entity(order_detail)
+

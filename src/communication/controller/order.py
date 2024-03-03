@@ -30,3 +30,11 @@ class OrderController:
     def list_orders(self) -> List[OrderDetailEntity]:
         order_gateway = OrderGateway(self.order_repository)
         return OrderUseCase.list_all(order_gateway=order_gateway)
+
+    def update_order_status(self, order_id:int, order_status: str) -> OrderDetailEntity:
+        order_gateway = OrderGateway(self.order_repository)
+        return OrderUseCase.order_status_update(
+            order_gateway=order_gateway,
+            order_id=order_id,
+            order_status=order_status
+        )

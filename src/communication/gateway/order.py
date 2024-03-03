@@ -21,3 +21,6 @@ class OrderGateway(OrderGatewayInterface):
 
     def list_all(self) -> List[ProductEntity]:
         return self.order_repository.list_all()
+
+    def update_order_status(self, order_id: int, order_status: str):
+        return self.order_repository.update_order_status(order_id, order_status)
