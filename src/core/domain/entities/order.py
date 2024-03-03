@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Union
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -9,7 +10,7 @@ from src.core.domain.value_objects.order_status import OrderStatus
 class OrderItemEntity(BaseModel):
     id: Union[int, None] = None
     order_detail_id: Union[int, None] = None
-    product_id: int
+    product_id: Union[int, None] = None
     product: Union[ProductEntity, None] = None
     quantity: int
 
@@ -22,3 +23,4 @@ class OrderDetailEntity(BaseModel):
     user_id: int
     total: float
     status: OrderStatus
+    created_at: Union[datetime, None] = None

@@ -1,9 +1,12 @@
 from datetime import datetime
 from typing import List
 
+from sqlalchemy import case
+
 from src.common.interfaces.order_repository import OrderRepositoryInterface
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
 from src.core.domain.exceptions import NotFoundError
+from src.core.domain.value_objects.order_status import OrderStatus
 from src.external.database.sqlalchemy.mappers.order_mapper import OrderMapper
 from src.external.database.sqlalchemy.models.order import (
     OrderDetailModel,
@@ -15,9 +18,9 @@ from src.external.database.sqlalchemy.session_mixin import use_database_session
 class OrderRepository(OrderRepositoryInterface):
 
     def create(
-        self,
-        order_detail: OrderDetailEntity,
-        order_items: List[OrderItemEntity],
+            self,
+            order_detail: OrderDetailEntity,
+            order_items: List[OrderItemEntity],
     ) -> OrderDetailEntity:
         with use_database_session() as session:
             order_detail_model = OrderDetailModel(
@@ -49,8 +52,16 @@ class OrderRepository(OrderRepositoryInterface):
 
     def list_all(self) -> List[OrderDetailEntity]:
         with use_database_session() as session:
-            orders = session.query(OrderDetailModel).join(OrderItemModel).all()
-            return [OrderMapper.model_to_entity(order) for order in orders]
+            ## TO-DO: fazer alguma forma mais clean code usando o valor do enum
+            orders = session.query(OrderDetailModel).filter(OrderDetailModel.status != OrderStatus.DONE.value).order_by(
+                case(
+                    (OrderDetailModel.status == 'Pronto', 1),
+                    (OrderDetailModel.status == 'Em Preparação', 2),
+                    (OrderDetailModel.status == 'Recebido', 3)
+                ),
+                OrderDetailModel.created_at.asc()).all()
+            session.close()
+            return [OrderMapper.model_to_entity_clean(order) for order in orders]
 
     def update_order_status(self, order_id: int, order_status: str) -> OrderDetailEntity:
         with (use_database_session() as session):
@@ -66,4 +77,3 @@ class OrderRepository(OrderRepositoryInterface):
             session.commit()
 
             return OrderMapper.model_to_entity(order_detail)
-

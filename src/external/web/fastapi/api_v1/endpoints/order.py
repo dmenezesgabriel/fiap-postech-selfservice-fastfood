@@ -1,6 +1,8 @@
+from typing import List
+
 from fastapi import APIRouter
 
-from src.common.dto.order_dto import CheckoutResponseDTO, CreateOrderDTO, OrderStatusDTO
+from src.common.dto.order_dto import CheckoutResponseDTO, CreateOrderDTO, OrderStatusDTO, OrderResponseDTO
 from src.communication.controller.order import OrderController
 from src.external.database.sqlalchemy.repositories.order import OrderRepository
 from src.external.database.sqlalchemy.repositories.product import (
@@ -21,7 +23,7 @@ async def fake_checkout(order: CreateOrderDTO):
     return order_controller.create_order(order)
 
 
-@router.get("/")
+@router.get("/", response_model=List[OrderResponseDTO], response_model_exclude_none=True)
 async def list_orders():
     return order_controller.list_orders()
 

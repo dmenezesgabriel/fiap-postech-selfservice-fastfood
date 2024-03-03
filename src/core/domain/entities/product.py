@@ -11,5 +11,5 @@ class ProductEntity(BaseModel):
     name: str
     description: Union[str, None] = None
     category: str
-    price: Decimal
-    quantity: int
+    price: Union[Decimal, None] = None
+    quantity: Union[int, None] = None
