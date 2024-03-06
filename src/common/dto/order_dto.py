@@ -33,16 +33,6 @@ class CreateOrderDTO(BaseModel):
     }
 
 
-class CheckoutResponseDTO(BaseModel):
-    id: int
-    user_id: int
-    transaction_amount: float
-    payment_method: str
-    description: str
-    status: OrderStatus
-    products: List[ProductDTO]
-
-
 class OrderResponseDTO(BaseModel):
     id: int
     user_id: int
