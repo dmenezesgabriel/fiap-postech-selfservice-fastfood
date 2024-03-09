@@ -2,14 +2,14 @@ from typing import List
 
 from fastapi import APIRouter
 
-from src.common.dto.order_dto import CheckoutResponseDTO, CreateOrderDTO, OrderStatusDTO, OrderResponseDTO
+from src.common.dto.order_dto import CreateOrderDTO, OrderResponseDTO, OrderStatusDTO
 from src.communication.controller.order import OrderController
 from src.external.database.sqlalchemy.repositories.order import OrderRepository
 from src.external.database.sqlalchemy.repositories.product import (
     ProductRepository,
 )
 
-router = APIRouter(prefix="/order", tags=["order"])
+router = APIRouter(prefix="/orders", tags=["orders"])
 
 order_repository = OrderRepository()
 product_repository = ProductRepository()
@@ -18,8 +18,8 @@ order_controller = OrderController(
 )
 
 
-@router.post("/fake_checkout", response_model=CheckoutResponseDTO)
-async def fake_checkout(order: CreateOrderDTO):
+@router.post("/", response_model=OrderResponseDTO, response_model_exclude_none=True)
+async def create_order(order: CreateOrderDTO):
     return order_controller.create_order(order)
 
 

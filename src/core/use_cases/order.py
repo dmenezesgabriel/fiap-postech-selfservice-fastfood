@@ -1,13 +1,14 @@
 from typing import List
 
 from src.common.dto.order_dto import (
-    CheckoutResponseDTO,
     CreateOrderDTO,
+    OrderResponseDTO,
     ProductDTO,
 )
 from src.common.interfaces.order_gateway import OrderGatewayInterface
 from src.common.interfaces.product_gateway import ProductGatewayInterface
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
+from src.core.domain.entities.product import ProductEntity
 from src.core.domain.value_objects.order_status import OrderStatus
 
 
@@ -17,7 +18,7 @@ class OrderUseCase:
             order: CreateOrderDTO,
             order_gateway: OrderGatewayInterface,
             product_gateway: ProductGatewayInterface,
-    ) -> CheckoutResponseDTO:
+    ) -> OrderResponseDTO:
         total: float = 0
 
         product_ids = [order_product.id for order_product in order.products]
@@ -36,15 +37,15 @@ class OrderUseCase:
         ]
 
         new_order = order_gateway.create(order_detail, order_items)
-        return CheckoutResponseDTO(
+        if not new_order.id:
+            raise Exception("Error creating order")
+
+        return OrderResponseDTO(
             id=new_order.id,
-            user_id=new_order.user_id,
-            transaction_amount=round(total, 2),
-            payment_method="credit-card",
-            description="Fake description",
+            created_at=new_order.created_at,
             status=new_order.status,
-            products=[
-                ProductDTO(id=product.id, quantity=product.quantity)
+            order_items=[
+                OrderItemEntity(id=product.id, quantity=product.quantity, product=product.product)
                 for product in new_order.order_items
             ],
         )

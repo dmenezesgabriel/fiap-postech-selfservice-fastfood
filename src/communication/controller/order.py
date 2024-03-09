@@ -1,6 +1,6 @@
 from typing import List
 
-from src.common.dto.order_dto import CreateOrderDTO, OrderResponseDTO, CheckoutResponseDTO
+from src.common.dto.order_dto import CreateOrderDTO, OrderResponseDTO
 from src.common.interfaces.order_repository import OrderRepositoryInterface
 from src.common.interfaces.product_repository import ProductRepositoryInterface
 from src.communication.gateway.order import OrderGateway
@@ -19,7 +19,7 @@ class OrderController:
         self.order_repository = order_repository
         self.product_repository = product_repository
 
-    def create_order(self, order: CreateOrderDTO) -> CheckoutResponseDTO:
+    def create_order(self, order: CreateOrderDTO) -> OrderResponseDTO:
         order_gateway = OrderGateway(self.order_repository)
         product_gateway = ProductGateway(self.product_repository)
         return OrderUseCase.create(
