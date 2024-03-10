@@ -1,3 +1,4 @@
+from src.common.dto.order_dto import OrderResponseDTO
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
 from src.core.domain.entities.product import ProductEntity
 from src.core.domain.value_objects.order_status import OrderStatus
@@ -34,6 +35,7 @@ class OrderMapper:
             user_id=order_detail_model.user_id,
             total=round(order_detail_model.total, 2),
             status=OrderStatus(order_detail_model.status),
+            created_at=order_detail_model.created_at
         )
 
     @staticmethod
@@ -49,8 +51,39 @@ class OrderMapper:
 
         return OrderDetailModel(
             id=order_detail_entity.id,
+            status=str(order_detail_entity.status),
             user_id=order_detail_entity.user_id,
             total=order_detail_entity.total,
             order_items=order_items_models,
-            status=str(order_detail_entity.status),
+        )
+
+    @staticmethod
+    def model_to_entity_clean(order_detail_model):
+        order_items = [
+            OrderItemEntity(
+                product=ProductEntity(
+                    name=item.product.name,
+                    category=item.product.category.name,
+                ),
+                quantity=item.quantity,
+            )
+            for item in order_detail_model.order_items
+        ]
+        return OrderDetailEntity(
+            id=order_detail_model.id,
+            order_items=order_items,
+            user_id=order_detail_model.user_id,
+            total=round(order_detail_model.total, 2),
+            status=OrderStatus(order_detail_model.status),
+            created_at=order_detail_model.created_at
+        )
+
+    @staticmethod
+    def entity_to_order_response_dto(entity: OrderDetailEntity) -> OrderResponseDTO:
+        return OrderResponseDTO(
+            id=entity.id,
+            total=entity.total,
+            status=entity.status,
+            created_at=entity.created_at,
+            order_items=entity.order_items
         )

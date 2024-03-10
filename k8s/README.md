@@ -1,21 +1,16 @@
 # Kubernetes
+Este documento apresenta uma visão geral da nossa arquitetura Kubernetes, incluindo como os contâiners estão organizados, como as comunicações são gerenciadas e como garantimos a resiliência do sistema.
+
+É possível escolher entre minikube, kind ou o próprio kubernetes
+
+## Arquitetura
+![alt text](k8s-archtechture.png)
 
 ## Minikube
 ```shell
 minikube start --mount-string "$HOME/minikube/postgres-data:/data" --driver=docker --install-addons=true --kubernetes-version=stable
 minikube stop
 minikube delete
-
-kubectl get nodes
-```
-
-## K3s
-```shell
-multipass launch --name k3s --mem 4G --disk 40G
-multipass info k3s
-
-multipass shell k3s
-curl -sfL https://get.k3s.io | sh -
 ```
 ## Kind
 ```shell

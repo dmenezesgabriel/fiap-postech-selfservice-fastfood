@@ -8,15 +8,16 @@ from src.common.dto.order_dto import (
 from src.common.interfaces.order_gateway import OrderGatewayInterface
 from src.common.interfaces.product_gateway import ProductGatewayInterface
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
+from src.core.domain.entities.product import ProductEntity
 from src.core.domain.value_objects.order_status import OrderStatus
 
 
 class OrderUseCase:
     @staticmethod
     def create(
-        order: CreateOrderDTO,
-        order_gateway: OrderGatewayInterface,
-        product_gateway: ProductGatewayInterface,
+            order: CreateOrderDTO,
+            order_gateway: OrderGatewayInterface,
+            product_gateway: ProductGatewayInterface,
     ) -> OrderResponseDTO:
         total: float = 0
 
@@ -41,18 +42,24 @@ class OrderUseCase:
 
         return OrderResponseDTO(
             id=new_order.id,
-            user_id=new_order.user_id,
-            total=round(total, 2),
+            created_at=new_order.created_at,
             status=new_order.status,
             order_items=[
-                ProductDTO(id=product.id, quantity=product.quantity)
+                OrderItemEntity(id=product.id, quantity=product.quantity, product=product.product)
                 for product in new_order.order_items
-                if product.id
             ],
         )
 
     @staticmethod
     def list_all(
-        order_gateway: OrderGatewayInterface,
+            order_gateway: OrderGatewayInterface,
     ) -> List[OrderDetailEntity]:
         return order_gateway.list_all()
+
+    @staticmethod
+    def order_status_update(
+            order_gateway: OrderGatewayInterface,
+            order_id: int,
+            order_status
+    ) -> OrderDetailEntity:
+        return order_gateway.update_order_status(order_id, order_status)
