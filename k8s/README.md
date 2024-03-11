@@ -1,7 +1,5 @@
 # Kubernetes
-Este documento apresenta uma visão geral da nossa arquitetura Kubernetes, incluindo como os contâiners estão organizados, como as comunicações são gerenciadas e como garantimos a resiliência do sistema.
-
-É possível escolher entre minikube, kind ou o próprio kubernetes
+Este documento apresenta uma visão geral da nossa arquitetura Kubernetes, incluindo como os componentes estão organizados, como as comunicações são gerenciadas e como garantimos a resiliência do sistema.
 
 ## Arquitetura
 ![alt text](k8s-archtechture.png)
@@ -37,8 +35,8 @@ kubectl top node
 
 ## Building image
 ```shell
-docker build -t alorencatto/fiap-postech-selfservice-fastfood .
-docker push alorencatto/fiap-postech-selfservice-fastfood
+docker build -t alorencatto/fiap-postech-selfservice-fastfood:0.2.0 .
+docker push alorencatto/fiap-postech-selfservice-fastfood:0.2.0
 ```
 
 ## Applying manifests
@@ -93,7 +91,7 @@ kubectl rollout restart deployment fiap-postech-selfservice-fastfood -n postech
 
 kubectl get events --all-namespaces  --sort-by='.metadata.creationTimestamp'
 
-kubectl logs fiap-postech-selfservice-fastfood-f4fdc55c9-kxsbt -n postech
+kubectl logs fiap-postech-selfservice-fastfood-7499fffdcb-k4jf6 -n postech
 kubectl logs fiap-postech-selfservice-fastfood-nginx-deployment-55d6d96n7h6m -n postech
 kubectl logs postgres-deployment-857594b99c-tq8kn -n postech
 kubectl logs fiap-postech-selfservice-fastfood-migrations-7kkg5 -n postech

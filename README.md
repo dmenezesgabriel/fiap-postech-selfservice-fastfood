@@ -32,7 +32,7 @@ Developed for FIAP's postgraduate software architecture course.
 - Architecture diagram
   - Kubernetes cluster diagram
   - Api requests examples collection
-  - explanatory video
+  - Explanatory video
 
 ### Phase 3
 
