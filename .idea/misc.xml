@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.11 (fiap-postech-selfservice-fastfood)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (fiap-postech-selfservice-fastfood)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (fiap-postech-selfservice-fastfood)" project-jdk-type="Python SDK" />
 </project>

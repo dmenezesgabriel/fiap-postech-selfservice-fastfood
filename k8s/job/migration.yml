@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
         - name: migration-container
-          image: alorencatto/fiap-postech-selfservice-fastfood:latest
+          image: alorencatto/fiap-postech-selfservice-fastfood:0.2.0
           command: [ "alembic","-c","migrations/alembic/alembic.ini", "upgrade", "head" ]
           env:
             - name: DATABASE_URL
