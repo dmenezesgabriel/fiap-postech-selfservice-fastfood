@@ -18,6 +18,10 @@ You can find the requests example collection at the `docs/collection` director.
 
 > Access http://localhost:8000/docs and get the docs by swagger.
 
+## Docs
+
+On docs folder you can check our architechture solution and our collection with endpoints
+
 ## K8s
 
 You can find the Kubernetes manifests at `k8s` directory.
@@ -47,3 +51,11 @@ You can find the Kubernetes manifests at `k8s` directory.
 
 - `alembic -c migrations/alembic/alembic.ini revision --autogenerate -m"First commit"`
 - `alembic -c migrations/alembic/alembic.ini upgrade head`
+
+
+## Contact
+Augusto Lorençatto - [lorencattoaugusto@gmail.com](mailto:lorencattoaugusto@gmail.com)
+
+Gabriel Dias Menezes - [gabriel.d.menezes@gmail.com](mailto:gabriel.d.menezes@gmail.com) 
+
+Marcello Cordeiro - [maarc.hen@gmail.com](mailto:maarc.hen@gmail.com)
