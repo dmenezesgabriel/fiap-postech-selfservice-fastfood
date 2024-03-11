@@ -1,9 +1,8 @@
 # Kubernetes
-Este documento apresenta uma visão geral da nossa arquitetura Kubernetes, incluindo como os contâiners estão organizados, como as comunicações são gerenciadas e como garantimos a resiliência do sistema.
+This document represents a general brief of our k8s architecture, including how the containers are organized, how the communication are managed and how we ensure the system resilience.
 
-É possível escolher entre minikube, kind ou o próprio kubernetes
-
-## Arquitetura
+You can execute your cluster choosing between minikube, kind or kubernetes
+## K8s Architechture
 ![alt text](k8s-archtechture.png)
 
 ## Minikube
