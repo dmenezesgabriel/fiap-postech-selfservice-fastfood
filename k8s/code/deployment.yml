@@ -14,10 +14,8 @@ spec:
     spec:
       containers:
       - name: fiap-postech-selfservice-fastfood
-        image: alorencatto/fiap-postech-selfservice-fastfood:latest
-#        command: ["bash","-c","while","!</dev/tcp/postgres/5432",";","do","sleep","1",";","done",";","uvicorn","src.infrastructure.http.app:app","--host","0.0.0.0","--port","8000","--reload"]
-        command: ["uvicorn","src.infrastructure.http.app:app","--host","0.0.0.0","--port","8000","--reload"]
-#        command: "bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; done; uvicorn src.infrastructure.http.app:app --host 0.0.0.0 --port 8000 --reload'"
+        image: alorencatto/fiap-postech-selfservice-fastfood:0.2.0
+        command: ["uvicorn","src.external.web.fastapi.app:app","--host","0.0.0.0","--port","8000","--reload"]
         ports:
         - containerPort: 8000
         readinessProbe:
@@ -41,6 +39,6 @@ spec:
         env:
           - name: DATABASE_URL
             valueFrom:
-              secretKeyRef: # TODO : Mudar aqui pra secret
+              secretKeyRef:
                 name: secret-fiap-postech-selfservice-fastfood
                 key: DATABASE_URL

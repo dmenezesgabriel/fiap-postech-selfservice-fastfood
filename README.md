@@ -6,8 +6,6 @@ This is a fast food self-service system backend, with the aim of mitigating conf
 
 Developed for FIAP's postgraduate software architecture course.
 
-
-
 ## Links
 
 - [YouTube application demo](...)
