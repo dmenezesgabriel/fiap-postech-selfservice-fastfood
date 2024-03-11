@@ -9,7 +9,7 @@ Developed for FIAP's postgraduate software architecture course.
 ## Links
 
 - [YouTube application demo](...)
-- [Swagger](http://localhost:8000/docs)
+  
 ## API
 
 You can find the requests example collection at the `docs/collection` director. 
