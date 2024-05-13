@@ -1,3 +1,4 @@
+import os
 from typing import List
 from src.common.interfaces.user_gateway import UserGatewayInterface
 from src.common.interfaces.user_repository import UserRepositoryInterface
@@ -29,7 +30,7 @@ class UserGateway(UserGatewayInterface):
             {'Name': 'preferred_username', 'Value': user.cpf},
             {'Name': 'email', 'Value': user.email}
         ]
-        user_pool_id = 'us-east-1_gR4D6DUKj'
+        user_pool_id = os.getenv('COGNITO_USER_POOL')
         client.admin_create_user(
             UserPoolId=user_pool_id,
             Username=user.cpf,
