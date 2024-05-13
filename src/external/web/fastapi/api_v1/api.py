@@ -4,7 +4,7 @@ from src.external.web.fastapi.api_v1.endpoints import (
     order,
     payment,
     products,
-    users,
+    users
 )
 
 router = APIRouter()

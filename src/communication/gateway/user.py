@@ -1,7 +1,8 @@
+import os
 from typing import List
-
 from src.common.interfaces.user_gateway import UserGatewayInterface
 from src.common.interfaces.user_repository import UserRepositoryInterface
+from src.config import AWSConfig
 from src.core.domain.entities.user import UserEntity
 
 
@@ -22,6 +23,22 @@ class UserGateway(UserGatewayInterface):
         return self.user_repository.list_all()
 
     def create(self, user: UserEntity) -> UserEntity:
+
+        client = AWSConfig.create_resource('cognito-idp')
+
+        cognito_attributes = [
+            {'Name': 'preferred_username', 'Value': user.cpf},
+            {'Name': 'email', 'Value': user.email}
+        ]
+        user_pool_id = os.getenv('COGNITO_USER_POOL')
+        client.admin_create_user(
+            UserPoolId=user_pool_id,
+            Username=user.cpf,
+            TemporaryPassword=user.password,
+            UserAttributes=cognito_attributes,
+            MessageAction='SUPPRESS'
+        )
+
         return self.user_repository.create(user=user)
 
     def delete(self, id: int) -> bool:
