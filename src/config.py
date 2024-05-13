@@ -1,6 +1,7 @@
 import logging.config
 import os
 
+import boto3
 from decouple import config  # type: ignore
 
 from src.common.utils.singleton import Singleton
@@ -71,3 +72,26 @@ def get_config() -> type[Config]:
     }
     logging.config.dictConfig(LOGGING)
     return app_config
+
+
+class AWSConfig:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance.access_key = os.getenv('AWS_ACCESS_KEY_ID')
+            cls._instance.secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+            cls._instance.region = os.getenv('AWS_REGION')
+        return cls._instance
+
+    def __get_aws_session(self):
+        return boto3.Session(aws_access_key_id=self.access_key,
+                             aws_secret_access_key=self.secret_key,
+                             region_name=self.region)
+
+    @staticmethod
+    def create_resource(resource: str):
+        session = AWSConfig().__get_aws_session()
+
+        return session.client(resource)
