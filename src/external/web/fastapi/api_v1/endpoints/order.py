@@ -23,13 +23,3 @@ order_controller = OrderController(
 @router.post("/", response_model=OrderResponseDTO, response_model_exclude_none=True)
 async def create_order(order: CreateOrderDTO):
     return order_controller.create_order(order)
-
-
-@router.get("/", response_model=List[OrderResponseDTO], response_model_exclude_none=True)
-async def list_orders():
-    return order_controller.list_orders()
-
-
-@router.put("/{order_id}")
-async def update_order_status(order_id: int, order_status: OrderStatusDTO):
-    return order_controller.update_order_status(order_id, order_status.status.title())

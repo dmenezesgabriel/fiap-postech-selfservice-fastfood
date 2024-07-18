@@ -16,7 +16,7 @@ class OrderGateway(OrderGatewayInterface):
         create_order_json = createOrderDTO.model_dump_json()
         ## TODO: remover url estática
         kitchen_response_json = httpx.post('http://localhost:8081/kitchen/v1/orders/', json=json.loads(create_order_json)).json()
-
+        print(kitchen_response_json)
         return KitchenResponseDTO(**kitchen_response_json)
 
     def list_all(self) -> List[OrderDetailEntity]:
