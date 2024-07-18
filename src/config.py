@@ -10,7 +10,7 @@ from src.common.utils.singleton import Singleton
 class Config(metaclass=Singleton):
     DATABASE_URL = config("DATABASE_URL", cast=str)
     LOG_LEVEL = config("LOG_LEVEL", default="INFO", cast=str)
-    TITLE = "FastAPI Clean Architecture"
+    TITLE = "Fastfood API"
     VERSION: str = "0.1.0"
     OPENAPI_URL: str = "/openapi.json"
     DOCS_URL: str = "/docs"

@@ -2,8 +2,10 @@ from typing import List
 
 from src.common.dto.order_dto import CreateOrderDTO, OrderResponseDTO
 from src.common.interfaces.order_repository import OrderRepositoryInterface
+from src.common.interfaces.payment_repository import PaymentRepositoryInterface
 from src.common.interfaces.product_repository import ProductRepositoryInterface
 from src.communication.gateway.order import OrderGateway
+from src.communication.gateway.payment import PaymentGateway
 from src.communication.gateway.product import ProductGateway
 from src.core.domain.entities.order import OrderDetailEntity
 from src.core.domain.exceptions import NotFoundError
@@ -17,17 +19,21 @@ class OrderController:
             self,
             order_repository: OrderRepositoryInterface,
             product_repository: ProductRepositoryInterface,
+            payment_repository: PaymentRepositoryInterface
     ) -> None:
+        self.payment_repository = payment_repository
         self.order_repository = order_repository
         self.product_repository = product_repository
 
     def create_order(self, order: CreateOrderDTO) -> OrderResponseDTO:
         order_gateway = OrderGateway(self.order_repository)
         product_gateway = ProductGateway(self.product_repository)
+        payment_gateway = PaymentGateway(self.payment_repository)
         return OrderUseCase.create(
-            order=order,
+            order_dto=order,
             order_gateway=order_gateway,
             product_gateway=product_gateway,
+            payment_gateway=payment_gateway
         )
 
     def list_orders(self) -> List[OrderResponseDTO]:

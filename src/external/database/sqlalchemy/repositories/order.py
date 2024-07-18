@@ -52,8 +52,9 @@ class OrderRepository(OrderRepositoryInterface):
 
     def list_all(self) -> List[OrderDetailEntity]:
         with use_database_session() as session:
-            ## TO-DO: fazer alguma forma mais clean code usando o valor do enum
+
             orders = session.query(OrderDetailModel).filter(OrderDetailModel.status != OrderStatus.DONE.value).order_by(
+                ## TO-DO: fazer alguma forma mais clean code usando o valor do enum
                 case(
                     (OrderDetailModel.status == 'Pronto', 1),
                     (OrderDetailModel.status == 'Em Preparação', 2),

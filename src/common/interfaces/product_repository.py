@@ -2,6 +2,7 @@ import abc
 from typing import List
 
 from src.core.domain.entities.product import ProductEntity
+from src.external.database.sqlalchemy.models.product import ProductModel
 
 
 class ProductRepositoryInterface(metaclass=abc.ABCMeta):
@@ -34,5 +35,5 @@ class ProductRepositoryInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_many_by_ids(self, product_ids: List[int]) -> List[ProductEntity]:
+    def get_many_by_ids(self, product_ids: List[int]) -> List[ProductModel]:
         raise NotImplementedError

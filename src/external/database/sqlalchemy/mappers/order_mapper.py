@@ -1,4 +1,4 @@
-from src.common.dto.order_dto import OrderResponseDTO
+from src.common.dto.order_dto import KitchenResponseDTO, OrderResponseDTO
 from src.core.domain.entities.order import OrderDetailEntity, OrderItemEntity
 from src.core.domain.entities.product import ProductEntity
 from src.core.domain.value_objects.order_status import OrderStatus

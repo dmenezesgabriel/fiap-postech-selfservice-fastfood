@@ -8,7 +8,7 @@ Developed for FIAP's postgraduate software architecture course.
 
 ## Links
 
-- [YouTube application demo](...)
+- [YouTube application demo](https://youtu.be/4E3dzVThg6U)
   
 ## API
 

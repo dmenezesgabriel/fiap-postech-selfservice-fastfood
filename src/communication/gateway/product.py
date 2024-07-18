@@ -3,6 +3,7 @@ from typing import List
 from src.common.interfaces.product_gateway import ProductGatewayInterface
 from src.common.interfaces.product_repository import ProductRepositoryInterface
 from src.core.domain.entities.product import ProductEntity
+from src.external.database.sqlalchemy.mappers.product_mapper import ProductMapper
 
 
 class ProductGateway(ProductGatewayInterface):
@@ -33,4 +34,6 @@ class ProductGateway(ProductGatewayInterface):
         return self.product_repository.get_by_id(product_id=product_id)
 
     def get_many_by_ids(self, product_ids: List[int]) -> List[ProductEntity]:
-        return self.product_repository.get_many_by_ids(product_ids=product_ids)
+        list_product_model = self.product_repository.get_many_by_ids(product_ids=product_ids)
+        return [ProductMapper.model_to_entity(product_model) for product_model in list_product_model]
+

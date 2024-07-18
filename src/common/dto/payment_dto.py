@@ -6,22 +6,22 @@ from src.core.domain.enum.payment import PaymentStatusEnum
 
 
 class CreatePaymentDTO(BaseModel):
-    id: Union[int, None] = None
+    # id: Union[int, None] = None
     order_id: Union[int, None] = None
-    user_id: Union[int, None] = None
     amount: float
     provider: str
     status: PaymentStatusEnum
+    user_id: int = 1
+
 
     model_config = {
         "json_schema_extra": {
             "examples": [
                 {
                     "order_id": 1,
-                    "user_id": 1,
                     "amount": 100.0,
                     "provider": "Stripe",
-                    "status": "PENDING",
+                    "status": "PENDING", ## TODO: remover status e deixar padrão "pending" no  microserviço de pagamentos
                 }
             ]
         }
