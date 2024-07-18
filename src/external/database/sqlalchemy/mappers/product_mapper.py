@@ -21,4 +21,6 @@ class ProductMapper:
             id=product_model.id,
             description=product_model.description,
             name=product_model.name,
+            price=product_model.price,
+            quantity=product_model.quantity
         )

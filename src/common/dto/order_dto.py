@@ -53,6 +53,7 @@ class OrderResponseDTO(BaseModel):
     created_at: datetime
     status: OrderStatus
     order_items: List[OrderItemEntity]
+    total: float
 
 
 class KitchenResponseDTO(BaseModel):

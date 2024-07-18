@@ -1,6 +1,7 @@
 import abc
 from typing import List
 
+from src.common.dto.payment_dto import CreatePaymentDTO
 from src.core.domain.entities.payment import PaymentEntity
 
 
@@ -18,7 +19,7 @@ class PaymentGatewayInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def create(self, payment: PaymentEntity) -> None:
+    def create(self, payment: CreatePaymentDTO) -> bool:
         raise NotImplementedError()
 
     @abc.abstractmethod

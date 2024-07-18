@@ -1,8 +1,11 @@
 from typing import List
 
+from src.common.dto.payment_dto import CreatePaymentDTO
 from src.common.interfaces.payment_gateway import PaymentGatewayInterface
 from src.common.interfaces.payment_repository import PaymentRepositoryInterface
 from src.core.domain.entities.payment import PaymentEntity
+import json
+import httpx
 
 
 class PaymentGateway(PaymentGatewayInterface):
@@ -18,8 +21,16 @@ class PaymentGateway(PaymentGatewayInterface):
     def get_by_order_id(self, order_id: int) -> PaymentEntity:
         return self.payment_repository.get_by_order_id(order_id=order_id)
 
-    def create(self, payment: PaymentEntity) -> PaymentEntity:
-        return self.payment_repository.create(payment=payment)
+    def create(self, create_payment_dto: CreatePaymentDTO) -> bool:
+        try:
+            url = 'http://23.23.36.50:8000/'
+            payment_json = json.loads(create_payment_dto.model_dump_json())
+            payment_response = httpx.post('http://23.23.36.50:8000/', json=payment_json).json()
+            print(payment_response)
+            return True
+        except Exception as error:
+            print(error)
+            return False
 
     def update(self, payment: PaymentEntity) -> PaymentEntity:
         return self.payment_repository.update(payment=payment)

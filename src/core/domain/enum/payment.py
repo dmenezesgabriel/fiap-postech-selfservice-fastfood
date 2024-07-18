@@ -2,6 +2,6 @@ import enum
 
 
 class PaymentStatusEnum(enum.Enum):
-    captured = "CAPTURED"
-    declined = "DECLINED"
-    pending = "PENDING"
+    CAPTURED = "CAPTURED"
+    DECLINED = "DECLINED"
+    PENDING = "PENDING"

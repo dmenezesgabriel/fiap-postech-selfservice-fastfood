@@ -10,7 +10,6 @@ from src.core.domain.value_objects.order_status import OrderStatus
 class OrderItemEntity(BaseModel):
     id: Union[int, None] = None
     order_detail_id: Union[int, None] = None
-    product_id: Union[int, None] = None
     product: Union[ProductEntity, None] = None
     sku: int = None
     quantity: int
