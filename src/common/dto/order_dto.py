@@ -53,3 +53,10 @@ class OrderResponseDTO(BaseModel):
     created_at: datetime
     status: OrderStatus
     order_items: List[OrderItemEntity]
+
+
+class KitchenResponseDTO(BaseModel):
+    id: int
+    created_at: datetime
+    status: OrderStatus
+    order_items: List[OrderItemEntity]

@@ -10,6 +10,6 @@ class ProductEntity(BaseModel):
     id: Union[int, None] = None
     name: str
     description: Union[str, None] = None
-    category: str
+    # category: str TODO: verificar pq não retorna categoria
     price: Union[Decimal, None] = None
     quantity: Union[int, None] = None
