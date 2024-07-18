@@ -25,7 +25,7 @@ class OrderController:
         order_gateway = OrderGateway(self.order_repository)
         product_gateway = ProductGateway(self.product_repository)
         return OrderUseCase.create(
-            order=order,
+            order_dto=order,
             order_gateway=order_gateway,
             product_gateway=product_gateway,
         )

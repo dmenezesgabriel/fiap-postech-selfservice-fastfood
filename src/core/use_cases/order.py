@@ -15,28 +15,28 @@ from src.core.domain.value_objects.order_status import OrderStatus
 class OrderUseCase:
     @staticmethod
     def create(
-            order: CreateOrderDTO,
+            order_dto: CreateOrderDTO,
             order_gateway: OrderGatewayInterface,
             product_gateway: ProductGatewayInterface,
     ) -> OrderResponseDTO:
         total: float = 0
 
-        product_ids = [order_product.id for order_product in order.products]
+        product_ids = [order_product.sku for order_product in order_dto.products]
         products = product_gateway.get_many_by_ids(product_ids)
 
-        for product, order_product in zip(products, order.products):
+        for product, order_product in zip(products, order_dto.products):
             total += product.price * order_product.quantity
 
-        order_detail: OrderDetailEntity = OrderDetailEntity(
-            user_id=order.user_id, total=total, status=OrderStatus.RECEIVED
-        )
+        # order_detail: OrderDetailEntity = OrderDetailEntity(
+        #     total=total, status=OrderStatus.RECEIVED
+        # )
+        #
+        # order_items: List[OrderItemEntity] = [
+        #     OrderItemEntity(product_id=item.id, quantity=item.quantity)
+        #     for item in order_dto.products
+        # ]
 
-        order_items: List[OrderItemEntity] = [
-            OrderItemEntity(product_id=item.id, quantity=item.quantity)
-            for item in order.products
-        ]
-
-        new_order = order_gateway.create(order_detail, order_items)
+        new_order: OrderResponseDTO = order_gateway.create(order_dto)
         if not new_order.id:
             raise Exception("Error creating order")
 

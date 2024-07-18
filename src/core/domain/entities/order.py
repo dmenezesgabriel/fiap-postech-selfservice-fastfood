@@ -12,6 +12,7 @@ class OrderItemEntity(BaseModel):
     order_detail_id: Union[int, None] = None
     product_id: Union[int, None] = None
     product: Union[ProductEntity, None] = None
+    sku: int = None
     quantity: int
 
 
@@ -20,7 +21,7 @@ class OrderDetailEntity(BaseModel):
 
     id: Union[int, None] = None
     order_items: List[OrderItemEntity] = Field(default_factory=list)
-    user_id: int
+    # user_id: int
     total: float
     status: OrderStatus
     created_at: Union[datetime, None] = None
